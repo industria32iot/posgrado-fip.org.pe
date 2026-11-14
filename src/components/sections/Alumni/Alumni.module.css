@@ -1,0 +1,82 @@
+/* Alumni · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.alumni {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.alumnus {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid var(--linea);
+  border-radius: var(--r-lg);
+  background: #fff;
+}
+.alumnus__k {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--oro-texto);
+}
+.alumnus__k svg {
+  width: 15px;
+  height: 15px;
+}
+.alumnus h3 {
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 0;
+  color: var(--tinta);
+}
+.alumnus p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--tinta);
+}
+.alumnus p span {
+  color: var(--suave);
+  font-size: 0.8125rem;
+}
+.alumnus :global(.more) {
+  margin-top: auto;
+  padding-top: 6px;
+}
+@media (max-width: 1024px) {
+  .alumni {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .alumni {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+  }
+  .alumni::-webkit-scrollbar {
+    display: none;
+  }
+  .alumnus {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+}
+.alumnus h3 {
+  font-size: var(--t-card);
+}
+.alumnus__k {
+  color: var(--verde-700);
+}
+@media (max-width: 640px) {
+  .alumnus {
+    flex-basis: 86%;
+  }
+}

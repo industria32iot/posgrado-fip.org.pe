@@ -1,0 +1,475 @@
+/* Admission · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+:global(#admision) .steps li {
+  padding: 22px 22px 4px 0;
+}
+:global(#admision) .steps b {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+:global(#admision) .steps b i {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--verde-900);
+  background: var(--oro);
+}
+:global(#admision) .steps em {
+  margin-bottom: 4px;
+}
+:global(#admision) .steps p {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.steps__nota {
+  margin: 12px 0 0;
+}
+.adm__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.adm__head h2 {
+  margin: 0;
+}
+.adm {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 16px;
+}
+.adm > * {
+  min-width: 0;
+}
+.adm__card {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 20px 22px;
+}
+.adm__k {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e3c77f;
+  margin-bottom: 14px;
+}
+:global(#admision) .adm .steps li {
+  padding: 20px 16px 0 0;
+}
+:global(#admision) .adm .steps b {
+  font-size: 0.9375rem;
+  margin-bottom: 4px;
+}
+:global(#admision) .adm .steps em {
+  margin: 0 0 0 34px;
+  font-size: 0.875rem;
+}
+:global(#admision) ul.dips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: 0;
+}
+:global(#admision) ul.dips li {
+  display: block;
+  padding: 0;
+}
+:global(#admision) ul.dips li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+:global(#admision) ul.dips a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+  padding: 10px 0;
+  color: #fff;
+}
+:global(#admision) ul.dips b {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+:global(#admision) ul.dips span {
+  grid-row: 2;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+:global(#admision) ul.dips .dips__wa {
+  grid-row: span 2;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-style: normal;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--verde-900);
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+:global(#admision) ul.dips .dips__wa svg {
+  width: 16px;
+  height: 16px;
+  color: #25d366;
+}
+:global(#admision) ul.dips a:hover b {
+  color: #e3c77f;
+}
+:global(#admision) ul.dips a:hover .dips__wa {
+  background: #e8f8ee;
+}
+.adm__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.adm__top .adm__k {
+  margin: 0;
+}
+.adm__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--verde-900);
+  background: #e3c77f;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.adm__tag i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--verde-900);
+  animation: pulse 2s infinite;
+}
+:global(#admision) .adm .steps--adm {
+  border-top: 0;
+  position: relative;
+}
+:global(#admision) .adm .steps--adm::before,
+:global(#admision) .adm .steps--adm::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 13px;
+  right: calc(25% - 13px);
+  height: 2px;
+}
+:global(#admision) .adm .steps--adm::before {
+  background: rgba(255, 255, 255, 0.16);
+  transform: none;
+}
+:global(#admision) .adm .steps--adm::after {
+  background: linear-gradient(90deg, var(--oro), #e9c46a);
+}
+:global(#admision) .adm .steps--adm li {
+  padding: 0 14px 0 0;
+  position: relative;
+}
+:global(#admision) .adm .steps--adm li::before {
+  display: none;
+}
+:global(#admision) .adm .steps--adm .steps__c {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--verde-900);
+  background: var(--oro);
+  box-shadow: 0 0 0 5px #023a33;
+  margin-bottom: 12px;
+  transform: scale(0);
+  transition: transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+:global(#admision) .adm .steps--adm:global(.is-in) .steps__c {
+  transform: scale(1);
+}
+:global(#admision) .adm .steps--adm:global(.is-in) li:nth-child(2) .steps__c {
+  transition-delay: 0.6s;
+}
+:global(#admision) .adm .steps--adm:global(.is-in) li:nth-child(3) .steps__c {
+  transition-delay: 1.05s;
+}
+:global(#admision) .adm .steps--adm:global(.is-in) li:nth-child(4) .steps__c {
+  transition-delay: 1.5s;
+}
+:global(#admision) .adm .steps--adm b {
+  display: block;
+  font-size: 0.9375rem;
+  margin: 0 0 2px;
+}
+:global(#admision) .adm .steps--adm em {
+  display: block;
+  margin: 0;
+  font-size: 0.875rem;
+}
+:global(#admision) .adm .steps--adm small {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+@media (max-width: 640px) {
+  :global(#admision) .adm .steps--adm {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 20px;
+  }
+  :global(#admision) .adm .steps--adm::before,
+  :global(#admision) .adm .steps--adm::after {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(#admision) .adm .steps--adm .steps__c {
+    transform: none;
+  }
+}
+:global(#admision) .adm__card {
+  background: #fff;
+  border: 1px solid var(--linea);
+  box-shadow: var(--sombra);
+}
+:global(#admision) .adm__k {
+  color: var(--oro-texto);
+}
+:global(#admision) .adm__tag {
+  background: #fbf5e8;
+  color: #8a6a1f;
+  border: 1px solid #ebd9ae;
+}
+:global(#admision) .adm__tag i {
+  background: var(--oro);
+}
+:global(#admision) .adm .steps--adm::before {
+  background: var(--linea);
+}
+:global(#admision) .adm .steps--adm .steps__c {
+  color: #fff;
+  background: var(--verde);
+  box-shadow: 0 0 0 5px #fff;
+}
+:global(#admision) .adm .steps--adm b {
+  color: var(--tinta);
+}
+:global(#admision) .adm .steps--adm em {
+  color: var(--oro-texto);
+  font-style: normal;
+  font-weight: 600;
+}
+:global(#admision) .adm .steps--adm small {
+  color: var(--suave);
+}
+:global(#admision) ul.dips li + li {
+  border-top-color: var(--linea);
+}
+:global(#admision) ul.dips a {
+  color: var(--tinta);
+}
+:global(#admision) ul.dips span {
+  color: var(--suave);
+}
+:global(#admision) ul.dips a:hover b {
+  color: var(--verde);
+}
+:global(#admision) ul.dips .dips__wa {
+  color: var(--verde-700);
+  background: #fff;
+  border: 1.5px solid var(--linea);
+}
+:global(#admision) ul.dips a:hover .dips__wa {
+  background: #e8f8ee;
+  border-color: #25d366;
+}
+:global(#admision) .steps__nota {
+  color: var(--suave);
+}
+:global(#admision) .steps__nota a {
+  color: var(--verde);
+}
+.steps__nota a {
+  color: #e3c77f;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+@media (max-width: 1024px) {
+  .adm {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .adm__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  :global(#admision) .adm .steps li {
+    padding: 14px 0 0;
+  }
+}
+.dips {
+  margin-top: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+.dips ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dips li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+}
+.dips li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+@media (max-width: 640px) {
+  .dips li {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  :global(#admision) .steps li {
+    padding: 16px 0 4px;
+  }
+}
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+  border-top: 2px solid rgba(255, 255, 255, 0.16);
+}
+.steps::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--oro), #e9c46a);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.8s cubic-bezier(0.6, 0.1, 0.2, 1) 0.2s;
+}
+.steps:global(.is-in)::after {
+  transform: scaleX(1);
+}
+.steps li {
+  position: relative;
+  padding: 28px 24px 28px 0;
+}
+.steps li::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--oro);
+  box-shadow: 0 0 0 4px rgba(201, 152, 43, 0.25);
+  transform: scale(0);
+  transition: transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.steps:global(.is-in) li::before {
+  transform: scale(1);
+}
+.steps:global(.is-in) li:nth-child(2)::before {
+  transition-delay: 0.6s;
+}
+.steps:global(.is-in) li:nth-child(3)::before {
+  transition-delay: 1.05s;
+}
+.steps:global(.is-in) li:nth-child(4)::before {
+  transition-delay: 1.5s;
+}
+.steps b {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.steps em {
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--oro);
+  font-size: 0.9375rem;
+  margin-bottom: 8px;
+}
+.steps p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+@media (prefers-reduced-motion: reduce) {
+  .steps::after,
+  .steps li::before {
+    transform: none !important;
+  }
+}
+@media (max-width: 1024px) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}
+:global(#admision) .adm__tag {
+  background: var(--verde-50);
+  color: var(--verde-700);
+  border-color: transparent;
+}
+:global(#admision) .adm__tag i {
+  background: var(--verde);
+}
+:global(#admision) .adm__card--main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(201, 152, 43, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(201, 152, 43, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(201, 152, 43, 0);
+  }
+}

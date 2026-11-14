@@ -1,0 +1,326 @@
+/* LeadForm · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.lead {
+  background: #fff;
+  color: var(--texto);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  box-shadow: var(--sombra-lg);
+  border-top: 4px solid var(--verde);
+}
+.lead__title {
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+}
+.lead__type {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  border: 0;
+  margin: 0 0 16px;
+  padding: 0;
+}
+.lead__type input {
+  position: absolute;
+  opacity: 0;
+}
+.lead__type span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 12px;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--r-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.lead__type svg {
+  width: 20px;
+  height: 20px;
+  color: var(--suave);
+}
+.lead__type input:checked + span {
+  border-color: var(--verde);
+  background: var(--verde-50);
+  color: var(--verde);
+}
+.lead__type input:checked + span svg {
+  color: var(--verde);
+}
+.lead__type input:focus-visible + span {
+  outline: 3px solid var(--oro);
+  outline-offset: 2px;
+}
+.lead__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.field {
+  display: block;
+  margin-bottom: 12px;
+}
+.field span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--tinta);
+  margin-bottom: 5px;
+}
+.field input,
+.field select {
+  width: 100%;
+  font: inherit;
+  font-size: 0.9375rem;
+  padding: 11px 12px;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--r-sm);
+  background: #fff;
+  color: var(--tinta);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%236B6F78' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  padding-right: 36px;
+}
+.field input:focus,
+.field select:focus {
+  outline: 0;
+  border-color: var(--verde);
+  box-shadow: 0 0 0 3px var(--verde-50);
+}
+.field.is-bad input,
+.field.is-bad select {
+  border-color: #b3261e;
+}
+.lead .field .selectbox {
+  position: relative;
+  display: block;
+  margin: 0;
+  font-size: inherit;
+  font-weight: 400;
+}
+.lead .field .selectbox select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+}
+.lead .field .selectbox__txt {
+  display: block;
+  margin: 0;
+  min-height: 42px;
+  padding: 10px 38px 10px 12px;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--tinta);
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%236B6F78' stroke-width='2'/%3E%3C/svg%3E")
+    no-repeat right 10px center/18px;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--r-sm);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.lead .field .selectbox__txt.is-empty {
+  color: var(--suave);
+}
+.lead .field .selectbox:focus-within .selectbox__txt {
+  border-color: var(--verde);
+  box-shadow: 0 0 0 3px var(--verde-50);
+}
+.lead .field.is-bad .selectbox__txt {
+  border-color: #b3261e;
+}
+.field--check {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  margin: 4px 0 12px;
+  cursor: pointer;
+}
+.field--check input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--verde);
+  cursor: pointer;
+}
+.lead .field--check span,
+.lead.lead--hero .field--check span {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: #3a3d45;
+  line-height: 1.45;
+  margin: 0;
+}
+.field--check a {
+  color: var(--verde);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.field--check.is-bad span {
+  color: #b3261e;
+}
+.field--check.is-bad input {
+  outline: 2px solid #b3261e;
+  outline-offset: 1px;
+}
+.lead__err {
+  color: #b3261e;
+  font-size: 0.875rem;
+  margin: 0 0 10px;
+}
+.lead__note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--suave);
+  margin: 12px 0 0;
+}
+.lead__done {
+  text-align: center;
+  padding: 24px 4px;
+}
+.lead__done :global(.ico) {
+  margin: 0 auto 16px;
+}
+.lead.lead--hero {
+  padding: 24px 24px 20px;
+  max-width: 420px;
+  justify-self: end;
+  width: 100%;
+}
+.lead--hero .lead__title {
+  font-size: 1.25rem;
+  margin-bottom: 14px;
+}
+.lead--hero .lead__type {
+  margin-bottom: 14px;
+  gap: 6px;
+  padding: 4px;
+  background: var(--crema);
+  border-radius: var(--r-sm);
+}
+.lead--hero .lead__type span {
+  border: 0;
+  padding: 8px 10px;
+  font-size: 0.8125rem;
+  justify-content: center;
+  border-radius: 4px;
+}
+.lead--hero .lead__type input:checked + span {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.lead--hero .field {
+  margin-bottom: 10px;
+}
+.lead--hero .field span {
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+.lead--hero .field input,
+.lead--hero .field select {
+  padding: 9px 11px;
+  font-size: 0.9375rem;
+}
+.lead.lead--hero :global(.btn) {
+  margin-top: 4px;
+}
+.lead--hero .lead__note {
+  font-size: 0.75rem;
+  margin-top: 10px;
+}
+@media (max-width: 640px) {
+  .lead {
+    padding: 22px;
+  }
+  .lead__row,
+  .lead__type {
+    grid-template-columns: 1fr;
+  }
+  .lead--hero .lead__row,
+  .lead--hero .lead__type {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lead--hero .lead__type span {
+    font-size: 0.75rem;
+    padding: 8px 6px;
+  }
+}
+.form-dialog {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  max-width: min(460px, calc(100vw - 32px));
+  width: 100%;
+  overflow: visible;
+}
+.form-dialog::backdrop {
+  background: rgba(0, 20, 17, 0.6);
+}
+.form-dialog .lead {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+  opacity: 1;
+  animation: none;
+}
+.form-dialog__x {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  color: var(--tinta);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--sombra);
+}
+.form-dialog__x svg {
+  width: 18px;
+  height: 18px;
+}
+.form-dialog__x:focus-visible {
+  outline: 3px solid var(--oro);
+}
+@media (max-width: 640px) {
+  .form-dialog__x {
+    top: 8px;
+    right: 8px;
+  }
+}
+main > section .lead__title {
+  font-size: 1.25rem;
+}
+@media (max-width: 640px) {
+  .lead.lead--hero {
+    display: none;
+  }
+}
+main > section h2:not(.lead__title):not(:global(.sub-h3)) {
+  font-size: var(--t-h2) !important;
+  line-height: 1.12;
+}

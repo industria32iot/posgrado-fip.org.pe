@@ -1,0 +1,103 @@
+/* WhatsAppFloat · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+body .wa-float {
+  bottom: 120px;
+}
+body .wa-tip {
+  bottom: 128px;
+}
+@media (max-width: 640px) {
+  body .wa-float {
+    bottom: 16px;
+    right: 14px;
+    width: 50px;
+    height: 50px;
+  }
+  body .wa-float svg {
+    width: 26px;
+    height: 26px;
+  }
+  body .wa-tip {
+    right: 14px;
+    bottom: 76px;
+  }
+}
+.wa-tip {
+  position: fixed;
+  right: 88px;
+  bottom: 28px;
+  z-index: 60;
+  max-width: 250px;
+  padding: 12px 34px 12px 14px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--sombra-lg);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--texto);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: 0.3s;
+}
+.wa-tip:global(.is-in) {
+  opacity: 1;
+  transform: none;
+}
+.wa-tip b {
+  display: block;
+  color: var(--tinta);
+}
+.wa-tip button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: none;
+  border: 0;
+  padding: 4px;
+  color: var(--suave);
+}
+.wa-tip button svg {
+  width: 14px;
+  height: 14px;
+}
+.wa-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 60;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s;
+}
+.wa-float:hover {
+  transform: scale(1.08);
+}
+.wa-float svg {
+  width: 30px;
+  height: 30px;
+}
+@media (max-width: 640px) {
+  .wa-tip {
+    right: 16px;
+    bottom: 88px;
+  }
+}
+.wa-float {
+  transition:
+    opacity 0.25s,
+    transform 0.2s;
+}
+.wa-float.wa-float--off,
+.wa-tip.wa-float--off {
+  opacity: 0;
+  pointer-events: none;
+}
+.wa-tip.wa-tip--off {
+  opacity: 0;
+  pointer-events: none;
+}

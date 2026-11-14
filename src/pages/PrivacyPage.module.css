@@ -1,0 +1,30 @@
+/* Página legal (antes: <style> dentro de privacidad.html) */
+.legal {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
+.legal h1 {
+  font-size: clamp(1.8rem, 1.4rem + 1.5vw, 2.4rem);
+}
+.legal h2 {
+  font-size: 1.2rem;
+  margin-top: 32px;
+}
+.legal p,
+.legal li {
+  color: var(--texto);
+}
+.legal ul {
+  padding-left: 20px;
+}
+.legal .back {
+  display: inline-flex;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--verde);
+  margin-bottom: 24px;
+}
+.legal :global(.ref-tag) {
+  margin: 0 0 20px;
+}

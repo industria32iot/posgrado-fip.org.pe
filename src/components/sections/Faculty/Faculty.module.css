@@ -1,0 +1,210 @@
+/* Faculty · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.faculty {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.prof {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition:
+    box-shadow 0.25s,
+    transform 0.25s;
+}
+.prof:hover {
+  box-shadow: var(--sombra);
+  transform: translateY(-2px);
+}
+.prof h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.role {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--verde);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.prof p:last-child {
+  font-size: 0.875rem;
+  color: var(--suave);
+  margin: 0;
+}
+.fac__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.fac__head h2 {
+  margin-bottom: 6px;
+}
+.fac__head p:not(:global(.eyebrow)) {
+  margin: 0;
+  color: var(--suave);
+  max-width: 560px;
+}
+:global(#docentes) .prof__top .role {
+  color: var(--verde);
+  font-size: 0.75rem;
+  margin: 0;
+}
+:global(#docentes) .fac__track {
+  display: flex;
+  grid-template-columns: none;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 4px 2px 12px;
+  margin: 0;
+  scrollbar-width: none;
+}
+:global(#docentes) .fac__track::-webkit-scrollbar {
+  display: none;
+}
+:global(#docentes) .prof {
+  flex: 0 0 calc((100% - 48px) / 4);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+}
+.prof__top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.prof__top :global(.avatar) {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  font-size: 1rem;
+  box-shadow:
+    0 0 0 3px #fff,
+    0 0 0 5px #e3c77f;
+}
+.prof__top h3 {
+  font-size: 1rem;
+  margin: 0 0 2px;
+  line-height: 1.25;
+}
+.prof__top .role {
+  margin: 0;
+  font-size: 0.75rem;
+}
+.prof__sum {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--suave);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.prof__seals {
+  list-style: none;
+  margin: auto 0 0;
+  padding: 12px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-top: 1px dashed var(--linea);
+}
+.prof__seals li {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--verde-700);
+  background: var(--verde-50);
+  padding: 4px 9px;
+  border-radius: 999px;
+}
+.fac__more {
+  margin: 16px 0 0;
+}
+@media (max-width: 1180px) {
+  :global(#docentes) .prof {
+    flex-basis: calc((100% - 32px) / 3);
+  }
+}
+@media (max-width: 1024px) {
+  :global(#docentes) .prof {
+    flex-basis: calc((100% - 16px) / 2);
+  }
+}
+@media (max-width: 640px) {
+  .fac__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  :global(#docentes) .prof {
+    flex-basis: 84%;
+  }
+}
+@media (max-width: 1180px) {
+  .faculty {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .faculty {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    margin: 0;
+    padding: 4px 0 16px;
+    scrollbar-width: none;
+  }
+  .faculty::-webkit-scrollbar {
+    display: none;
+  }
+  .prof {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+  .faculty::after {
+    content: "";
+    flex: 0 0 4px;
+  }
+  .faculty {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(#docentes) .fac__track {
+    scroll-behavior: auto;
+  }
+}
+.prof__top h3 {
+  font-size: 1rem;
+}
+.prof__top :global(.avatar) {
+  font-family: var(--serif);
+  font-weight: 600;
+  color: #fff;
+  box-shadow: none;
+}
+.prof__top img:global(.avatar--foto) {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 3px var(--oro);
+}
+@media (max-width: 640px) {
+  :global(#docentes) .prof {
+    flex-basis: 86%;
+  }
+}
