@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- El título y la descripción se completan desde programas.js según ?id= -->
+  <title>Programa | Posgrado FIP-UNI</title>
+  <meta name="description" content="Programas de posgrado de la Facultad de Ingeniería de Petróleo, Gas Natural y Petroquímica de la UNI.">
+  <meta name="theme-color" content="#003C36">
+  <link rel="icon" href="assets/logo-uni.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-programa">
+
+<div id="icons"></div>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<!-- ============ HEADER (igual que index.html) ============ -->
+<header class="header" id="header">
+  <div class="container header__in">
+    <a class="brand" href="index.html#inicio" aria-label="Posgrado FIP-UNI, inicio">
+      <img src="assets/logo-uni.png" alt="Escudo de la Universidad Nacional de Ingeniería" width="44" height="53">
+      <span class="brand__txt">
+        <strong>Universidad Nacional de Ingeniería</strong>
+        <span>Facultad de Ingeniería de Petróleo,<br>Gas Natural y Petroquímica</span>
+      </span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Principal">
+      <ul>
+        <li class="has-sub">
+          <button type="button" class="nav__sub-btn" aria-expanded="false">Programas <svg><use href="#i-chev"/></svg></button>
+          <div class="mega" id="mega"></div>
+        </li>
+        <li><a href="index.html#admision">Admisión</a></li>
+        <li><a href="index.html#docentes">Docentes</a></li>
+        <li><a href="index.html#investigacion">Investigación</a></li>
+        <li><a href="index.html#agenda">Agenda</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a class="btn btn--primary nav__cta-m js-solicitar" href="index.html#solicitar">Solicita información</a>
+    </nav>
+    <a class="btn btn--primary header__cta js-solicitar" href="index.html#solicitar"><svg><use href="#i-brochure"/></svg> Solicita información</a>
+    <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-controls="nav" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Cabecera del programa -->
+  <section class="phero">
+    <div class="phero__bg" aria-hidden="true"><img id="pImg" src="assets/portada.jpg" alt=""></div>
+    <div class="container phero__in">
+      <nav class="crumbs" aria-label="Ruta">
+        <a href="index.html">Inicio</a><span>/</span><a href="index.html#programas">Programas</a><span>/</span><span id="pCrumb"></span>
+      </nav>
+      <span class="tag tag--hero" id="pTipo"></span>
+      <h1 id="pNombre">Programa</h1>
+      <ul class="phero__facts" id="pFacts"></ul>
+    </div>
+  </section>
+
+  <section class="section section--pt">
+    <div class="container pdetail">
+      <article class="pdetail__main" id="pMain"><!-- generado --></article>
+
+      <aside class="pdetail__side">
+        <div class="side-card" id="pSide"><!-- generado: datos, inversión y botones --></div>
+        <div class="side-help">
+          <svg><use href="#i-phone"/></svg>
+          <div><b>¿Prefieres llamar?</b><a data-tel href="#"></a></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Otros programas -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="head head--split">
+        <div><p class="eyebrow">Sigue explorando</p><h2>Otros programas de posgrado</h2></div>
+        <p><a class="more" href="index.html#programas">Ver todos los programas <svg><use href="#i-arrow"/></svg></a></p>
+      </div>
+      <div class="pgrid pgrid--3" id="pOtros"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ═════ FOOTER · contenido.js → contacto, redes · programas.js ═════ -->
+<footer class="footer footer--min" id="contacto">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="brand brand--light" href="index.html#inicio">
+        <img src="assets/logo-uni-blanco.png" alt="Escudo de la Universidad Nacional de Ingeniería" width="40" height="48">
+        <span class="brand__txt"><strong>Universidad Nacional de Ingeniería</strong><span>Unidad de Posgrado FIP</span></span>
+      </a>
+      <div class="social" id="footerRedes"></div>
+    </div>
+    <nav aria-label="Enlaces">
+      <h3>Enlaces</h3>
+      <ul>
+        <li><a href="index.html#programas">Programas de posgrado</a></li>
+        <li><a href="index.html#admision">Calendario de admisión</a></li>
+        <li><a href="index.html#faq">Preguntas frecuentes</a></li>
+        <li><a href="https://www.fip.uni.edu.pe/" target="_blank" rel="noopener">Facultad FIP</a></li>
+        <li><a href="https://repositorio.uni.edu.pe" target="_blank" rel="noopener">Repositorio UNI</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h3>Contacto</h3>
+      <ul class="contact" id="footerContacto"></ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© <span id="year">2026</span> Universidad Nacional de Ingeniería</span>
+    <span class="footer__links"><a href="privacidad.html">Política de privacidad</a><a id="footerSPE" href="https://pe.linkedin.com/in/speuni" target="_blank" rel="noopener">SPE UNI Student Chapter</a><a href="#main">Volver arriba ↑</a></span>
+  </div>
+</footer>
+
+<a class="wa-float" id="waFloat" href="https://wa.me/51998028384" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg><use href="#i-wa"/></svg></a>
+
+<script src="programas.js"></script>
+<script src="contenido.js"></script>
+<script src="secciones.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
