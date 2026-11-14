@@ -134,6 +134,7 @@ npm run build
 
 Sube el contenido de **`dist/`** a tu hosting. Como es una SPA, el servidor debe responder con `index.html` en cualquier ruta (`/programa/...`, `/privacidad`):
 
+- **GitHub Pages:** se publica solo con `.github/workflows/deploy-pages.yml` en cada push a `main` (compila con la base `/<repositorio>/` y crea `404.html` para las rutas). Requisito único: *Settings → Pages → Source: GitHub Actions*. El sitio queda en `https://industria32iot.github.io/posgrado-fip.org.pe/`.
 - **Apache / cPanel:** ya está resuelto con `public/.htaccess`, que se copia a `dist/`.
 - **Netlify:** crea `public/_redirects` con la línea `/*  /index.html  200`.
 - **Vercel:** usa una regla `rewrites` de `/(.*)` a `/index.html` en `vercel.json`.
