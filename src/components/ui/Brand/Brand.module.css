@@ -1,0 +1,129 @@
+/* Brand · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.brand--header .brand__txt strong {
+  font-size: 1rem;
+  color: var(--verde-700);
+}
+.brand--header .brand__txt {
+  border-left-color: var(--oro);
+}
+.brand.brand--header img {
+  width: auto;
+  height: 70px;
+}
+.brand.brand--header {
+  gap: 14px;
+}
+.brand.brand--header.brand--compact img {
+  transform: none;
+  height: 52px;
+}
+.brand img {
+  transition: height 0.35s ease;
+}
+@media (max-width: 640px) {
+  .brand.brand--header img {
+    height: 46px;
+  }
+  .brand.brand--header.brand--compact img {
+    height: 42px;
+  }
+}
+.brand--header .brand__txt > span {
+  color: var(--tinta);
+  font-weight: 500;
+}
+@media (max-width: 1180px) {
+  .brand--header .brand__txt strong {
+    font-size: 0.8125rem;
+  }
+}
+.brand__txt > span {
+  max-width: 290px;
+}
+@media (max-width: 1499px) and (min-width: 1181px) {
+  .brand--header .brand__txt strong {
+    font-size: 0.9375rem;
+  }
+  .brand__txt > span {
+    font-size: 0.75rem;
+  }
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+.brand__txt {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  padding-left: 12px;
+  border-left: 1px solid var(--linea);
+}
+.brand img {
+  color: var(--verde-700);
+}
+.brand__txt strong {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--verde-700);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+}
+.brand__txt span {
+  font-size: 0.75rem;
+  color: var(--suave);
+}
+.brand--light .brand__txt {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.brand--light strong {
+  color: #fff;
+}
+.brand--light span {
+  color: rgba(255, 255, 255, 0.65);
+}
+.brand img {
+  transition: transform 0.35s ease;
+}
+.brand.brand--header.brand--compact img {
+  transform: scale(0.86);
+}
+@media (max-width: 640px) {
+  .brand {
+    min-width: 0;
+    flex: 1;
+  }
+  .brand__txt {
+    padding-left: 10px;
+  }
+  .brand__txt > span {
+    display: none;
+  }
+  .brand__txt strong {
+    font-size: 0.8125rem;
+    line-height: 1.25;
+  }
+  .brand img {
+    width: 36px;
+    height: 44px;
+  }
+}
+.brand.brand--light .brand__txt span {
+  max-width: 240px;
+  line-height: 1.35;
+}
+.brand.brand--light .brand__txt strong {
+  text-wrap: balance;
+  max-width: 16ch;
+}
+.brand.brand--light .brand__txt strong {
+  max-width: 24ch !important;
+  text-wrap: balance;
+  display: block;
+}
+.brand--header .brand__txt {
+  border-left-color: var(--granate-uni);
+}

@@ -1,0 +1,10 @@
+# Apache (cPanel u hosting similar): todas las rutas de la SPA sirven index.html
+# para que /programa/<id> y /privacidad funcionen al recargar o abrir un enlace directo.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

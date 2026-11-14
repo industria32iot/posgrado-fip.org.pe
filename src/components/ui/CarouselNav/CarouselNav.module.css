@@ -1,0 +1,38 @@
+/* CarouselNav · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.carousel__nav {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+.carousel__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--linea);
+  background: #fff;
+  color: var(--verde-700);
+  display: grid;
+  place-items: center;
+  transition: 0.2s;
+}
+.carousel__btn:hover {
+  border-color: var(--verde);
+  background: var(--verde);
+  color: #fff;
+}
+.carousel__btn svg {
+  width: 20px;
+  height: 20px;
+}
+@media (max-width: 640px) {
+  .carousel__nav {
+    display: none;
+  }
+}
+.carousel__btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  background: #fff;
+  color: var(--verde-700);
+  border-color: var(--linea);
+}

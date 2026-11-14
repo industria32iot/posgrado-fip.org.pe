@@ -1,0 +1,247 @@
+/* Testimonials · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.quote {
+  position: relative;
+  isolation: isolate;
+}
+.quote::before {
+  top: 6px;
+  left: 14px;
+  right: auto;
+  z-index: -1;
+  font-size: 5.5rem;
+  opacity: 0.18;
+}
+.quote blockquote {
+  flex: 1;
+  padding: 18px 0 0;
+}
+.quote figcaption {
+  position: relative;
+}
+.quote figcaption > div {
+  flex: 1;
+  min-width: 0;
+}
+.quote__prog {
+  display: inline-block;
+  margin-top: 4px;
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--verde-700);
+  background: var(--verde-50);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.quote__in {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--verde-700);
+  border: 1px solid var(--linea);
+}
+.quote__in:hover {
+  background: var(--verde);
+  color: #fff;
+}
+.quote__in svg {
+  width: 15px;
+  height: 15px;
+}
+.quotes.quotes--2 {
+  grid-template-columns: repeat(2, minmax(0, 420px));
+  justify-content: center;
+}
+.quote__label {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 1;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8a6a1f;
+  background: #fbf5e8;
+  border: 1px dashed #d9be7e;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.quote--ej figcaption b {
+  color: var(--suave);
+  font-style: italic;
+}
+.quote figcaption :global(.avatar) svg {
+  width: 22px;
+  height: 22px;
+}
+.quote figcaption :global(.avatar) {
+  color: #fff;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  width: 48px;
+  height: 48px;
+}
+.quote figcaption > div > span {
+  display: block;
+}
+.quote figcaption :global(.avatar) {
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.quote__prog {
+  margin-top: 6px;
+}
+@media (max-width: 640px) {
+  .quotes.quotes--2 {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+.quotes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.quote {
+  margin: 0;
+  padding: 28px;
+  border: 1px solid var(--linea);
+  border-radius: var(--r-lg);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  position: relative;
+}
+.quote::before {
+  content: "“";
+  position: absolute;
+  top: 8px;
+  right: 20px;
+  font-family: var(--serif);
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--oro);
+  opacity: 0.35;
+}
+.quote blockquote {
+  margin: 0;
+  padding-right: 28px;
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--tinta);
+}
+.quote figcaption {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--linea);
+}
+.quote figcaption b {
+  display: block;
+  font-size: 0.9375rem;
+  color: var(--tinta);
+}
+.quote figcaption span {
+  font-size: 0.8125rem;
+  color: var(--suave);
+}
+@media (max-width: 1024px) {
+  .quotes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .quotes {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    margin: 0;
+    padding: 4px 0 16px;
+    scrollbar-width: none;
+  }
+  .quotes::-webkit-scrollbar {
+    display: none;
+  }
+  .quote {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+  .quotes::after {
+    content: "";
+    flex: 0 0 4px;
+  }
+  .quotes {
+    grid-template-columns: 1fr;
+  }
+}
+.testi__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.testi__side p {
+  margin: 0;
+}
+.testi__nav[hidden] {
+  display: none;
+}
+.quotes.quotes--track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 4px 2px 14px;
+  scrollbar-width: none;
+}
+.quotes.quotes--track::-webkit-scrollbar {
+  display: none;
+}
+.quotes--track .quote {
+  flex: 0 0 calc((100% - 40px) / 3);
+  scroll-snap-align: start;
+}
+@media (max-width: 1024px) {
+  .quotes--track .quote {
+    flex-basis: calc((100% - 20px) / 2);
+  }
+}
+@media (max-width: 640px) {
+  .quotes--track .quote {
+    flex-basis: 84%;
+  }
+  .testi__nav {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quotes.quotes--track {
+    scroll-behavior: auto;
+  }
+}
+.quote figcaption b {
+  font-size: 1rem;
+}
+.quote__label {
+  color: var(--texto);
+  background: #eef0ef;
+  border-color: #d6dad8;
+}
+@media (max-width: 640px) {
+  .quotes--track .quote {
+    flex-basis: 86%;
+  }
+}

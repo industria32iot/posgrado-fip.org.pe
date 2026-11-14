@@ -1,0 +1,212 @@
+/* Faq · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.faq {
+  display: grid;
+  gap: 12px;
+}
+.faq details {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: var(--r);
+  transition: border-color 0.2s;
+}
+.faq details[open] {
+  border-color: var(--verde);
+}
+.faq summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  font-weight: 600;
+  color: var(--tinta);
+  cursor: pointer;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary svg {
+  color: var(--verde);
+  transition: transform 0.2s;
+}
+.faq details[open] summary svg {
+  transform: rotate(180deg);
+}
+.faq details p {
+  padding: 0 22px 20px;
+  margin: 0;
+  color: var(--suave);
+}
+.faq__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.faq__top h2 {
+  margin: 0;
+}
+.faq__filters {
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .faq__filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    scrollbar-width: none;
+  }
+  .faq__filters :global(.chip) {
+    flex: none;
+  }
+}
+:global(#faq) .faq__top {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+:global(#faq) .faq__top :global(.eyebrow) {
+  justify-content: center;
+}
+:global(#faq) .faq__filters {
+  justify-content: center;
+}
+@media (max-width: 640px) {
+  :global(#faq) .faq summary {
+    padding-block: 14px;
+  }
+  :global(#faq) .faq details {
+    margin-bottom: 8px;
+  }
+  :global(#faq) .faq summary {
+    padding-block: 12px;
+  }
+}
+:global(#faq) .faq__layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  grid-template-areas: "head list" "help list";
+  grid-template-rows: auto 1fr;
+  gap: 20px 64px;
+  align-items: start;
+}
+:global(#faq) .faq__layout .faq__top {
+  grid-area: head;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 14px;
+  margin: 0;
+}
+:global(#faq) .faq__layout .faq__top :global(.eyebrow) {
+  justify-content: flex-start;
+}
+:global(#faq) .faq__layout .faq__filters {
+  justify-content: flex-start;
+}
+:global(#faq) .faq__layout .faq__filters[hidden] {
+  display: none;
+}
+:global(#faq) .faq__layout :global(#faqList) {
+  grid-area: list;
+  max-width: none;
+  margin: 0;
+  column-count: 1;
+}
+:global(#faq) .faq__layout :global(#faqList) details {
+  margin-bottom: 10px;
+}
+:global(#faq) .faq__help {
+  grid-area: help;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding-top: 8px;
+  border-top: 1px solid var(--linea);
+}
+:global(#faq) .faq__help-t {
+  margin: 12px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--suave);
+}
+:global(#faq) .faq__help-t b {
+  display: block;
+  color: var(--tinta);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+:global(#faq) .faq__help-btns {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+:global(#faq) .faq__help-btns :global(.btn) svg {
+  width: 18px;
+  height: 18px;
+}
+@media (min-width: 1025px) {
+  :global(#faq) .faq__layout .faq__top,
+  :global(#faq) .faq__help {
+    position: relative;
+  }
+}
+@media (max-width: 860px) {
+  :global(#faq) .faq__layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "list" "help";
+    gap: 20px;
+  }
+  :global(#faq) .faq__help {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  :global(#faq) .faq__help-t {
+    margin: 12px 0 0;
+    flex: 1 1 100%;
+  }
+}
+:global(#faq) .faq__help :global(.btn--sm) {
+  padding: 10px 18px;
+  font-size: 0.9375rem;
+  min-height: 42px;
+}
+:global(#faq) .faq__layout :global(#faqList) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+:global(#faq) .faq__layout :global(#faqList) details {
+  margin: 0;
+}
+:global(#faq) .faq__layout :global(#faqList) summary {
+  padding: 15px 20px;
+  font-size: 0.9375rem;
+}
+:global(#faq) .faq__layout :global(#faqList) details p {
+  padding: 0 20px 16px;
+  font-size: 0.9375rem;
+}
+@media (max-width: 640px) {
+  :global(#faq) .faq__layout :global(#faqList) summary {
+    padding: 12px 16px;
+    font-size: 0.9375rem;
+  }
+  :global(#faq) .faq__layout :global(#faqList) details p {
+    padding: 0 16px 14px;
+  }
+  :global(#faq) .faq__help :global(.more) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}

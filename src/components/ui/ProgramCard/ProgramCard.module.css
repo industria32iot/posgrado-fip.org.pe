@@ -1,0 +1,268 @@
+/* ProgramCard · CSS Module (migrado de template/styles.css; las clases son locales al componente). */
+.pgrid > * {
+  min-width: 0;
+}
+.pgrid {
+  display: grid;
+  gap: 22px;
+}
+.pgrid--1 {
+  grid-template-columns: 1fr;
+}
+.pgrid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.pgrid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.pgrid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.prog.prog--wide {
+  flex-direction: row;
+}
+.prog.prog--wide .prog__img {
+  flex: 0 0 42%;
+  aspect-ratio: auto;
+  min-height: 240px;
+}
+.pgrid--1 .prog--wide .prog__img {
+  flex-basis: 46%;
+  min-height: 300px;
+}
+.pgrid--1 .prog--wide h3 {
+  font-size: 1.5rem;
+}
+.prog--wide .prog__body {
+  padding: 28px;
+}
+.prog h3 a:hover {
+  color: var(--verde);
+}
+.prog__sum {
+  font-size: 0.9375rem;
+  color: var(--suave);
+  margin: -6px 0 16px;
+}
+.pgrid--2 .prog__sum {
+  display: none;
+}
+.state {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  background: var(--oro);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  border-radius: 4px;
+}
+.prog.is-draft .prog__img img {
+  filter: grayscale(0.6) brightness(0.95);
+}
+.prog.is-draft h3 {
+  color: var(--suave);
+}
+.prog {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+.prog:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-lg);
+}
+.prog__img {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: var(--crema);
+}
+.prog__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.prog:hover .prog__img img {
+  transform: scale(1.05);
+}
+.prog__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 22px;
+}
+.prog h3 {
+  font-size: 1.125rem;
+  margin-bottom: 16px;
+}
+.facts {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--suave);
+}
+.facts li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.facts svg {
+  color: var(--verde);
+}
+.pgrid--all .prog {
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.25s;
+}
+.pgrid--all .prog.is-out {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.pgrid--all .prog[hidden] {
+  display: none;
+}
+.pgrid--all .prog h3 {
+  font-size: 1rem;
+}
+.pgrid--all .prog__body {
+  padding: 18px 20px 20px;
+}
+.pgrid--all .facts {
+  gap: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+@media (max-width: 1180px) {
+  .pgrid--all.pgrid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .pgrid--all {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+  }
+  .pgrid--all::-webkit-scrollbar {
+    display: none;
+  }
+  .pgrid--all .prog {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
+  }
+}
+.pgrid--all .prog__img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0b4d3b;
+  opacity: 0.15;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.pgrid--all .prog:hover .prog__img::after {
+  opacity: 0;
+}
+.pgrid--all .prog__img :global(.tag),
+.pgrid--all .prog__img .state {
+  z-index: 1;
+}
+.facts .facts__req {
+  margin-top: 4px;
+  padding-top: 9px;
+  border-top: 1px dashed var(--linea);
+  align-items: flex-start;
+  color: var(--texto);
+}
+.facts .facts__req svg {
+  color: var(--oro-texto);
+  margin-top: 2px;
+}
+.facts .facts__req b {
+  font-weight: 600;
+  color: var(--tinta);
+}
+@media (max-width: 1180px) {
+  .pgrid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 1024px) {
+  .pgrid--2,
+  .pgrid--3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pgrid--2 .prog--wide {
+    flex-direction: column;
+  }
+  .pgrid--2 .prog--wide .prog__img {
+    flex: none;
+    aspect-ratio: 16/10;
+    min-height: 0;
+  }
+}
+@media (max-width: 640px) {
+  .prog__img {
+    aspect-ratio: 16/9;
+  }
+  .pgrid--2,
+  .pgrid--3,
+  .pgrid--4 {
+    grid-template-columns: 1fr;
+  }
+  .prog.prog--wide {
+    flex-direction: column;
+  }
+  .prog.prog--wide .prog__img {
+    flex: none;
+    aspect-ratio: 16/10;
+    min-height: 0;
+  }
+  .prog--wide .prog__body {
+    padding: 22px;
+  }
+  .pgrid--1 .prog--wide h3 {
+    font-size: 1.25rem;
+  }
+}
+.prog h3,
+.pgrid--all .prog h3 {
+  font-size: var(--t-card);
+}
+.state {
+  background: var(--verde-50);
+  color: var(--verde-700);
+}
+@media (max-width: 640px) {
+  :global(#catalogo) .prog__img {
+    height: 140px;
+    aspect-ratio: auto;
+  }
+  :global(#catalogo) .prog__img img {
+    height: 100%;
+    object-fit: cover;
+  }
+  :global(#catalogo) .prog :global(.more) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
