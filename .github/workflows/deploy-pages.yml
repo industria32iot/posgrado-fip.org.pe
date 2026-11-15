@@ -27,9 +27,14 @@ jobs:
           cache: npm
       - run: npm ci
       # El sitio de proyecto vive en https://<usuario>.github.io/<repositorio>/
+      # NOINDEX: copia de vista previa, Google no debe indexarla
       - run: npx vite build --base=/${{ github.event.repository.name }}/
+        env:
+          NOINDEX: 'true'
       # SPA: GitHub Pages responde 404.html en rutas como /programa/<id>
       - run: cp dist/index.html dist/404.html
+      # GitHub Pages no ejecuta PHP: no publicar el endpoint del CRM
+      - run: rm -rf dist/api
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

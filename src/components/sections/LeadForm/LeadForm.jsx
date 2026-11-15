@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ORDEN_TIPOS, TIPOS, porTipo, progById, wa } from '../../../utils/content.js'
+import { K, ORDEN_TIPOS, TIPOS, porTipo, progById, wa } from '../../../utils/content.js'
 import { cx } from '../../../utils/cx.js'
+import { sendLead } from '../../../utils/lead.js'
 import Icon from '../../ui/Icon/Icon.jsx'
+import { CONSENT_VERSION } from './consent.js'
 import { useLeadForm } from './LeadFormContext.jsx'
 import s from './LeadForm.module.css'
 
@@ -13,8 +15,8 @@ const TIPOS_INFO = [
 
 /**
  * Formulario de captación (único en el sitio).
- * Sin backend: valida y abre WhatsApp con los datos. Para guardar registros,
- * reemplazar el bloque ENVÍO por un fetch() al servicio (Sheets, CRM, API).
+ * Valida, registra al interesado en el CRM (Dolibarr, si el despliegue define
+ * VITE_LEAD_ENDPOINT) y abre WhatsApp con los datos para atención inmediata.
  * inHero: estilo compacto y animación de entrada de la portada.
  */
 export default function LeadForm({ inHero = false }) {
@@ -32,7 +34,7 @@ export default function LeadForm({ inHero = false }) {
   const onSubmit = (e) => {
     e.preventDefault()
     const form = formRef.current
-    const fields = Array.from(form.querySelectorAll('input:not([type=radio]), select'))
+    const fields = Array.from(form.querySelectorAll('input:not([type=radio]):not([name=website]), select'))
     const nextBad = {}
     fields.forEach((f) => {
       nextBad[f.name] = f.type === 'checkbox' ? !f.checked : !f.checkValidity() || !String(f.value).trim()
@@ -50,7 +52,19 @@ export default function LeadForm({ inHero = false }) {
       'Hola, solicito ' + values.tipo.toLowerCase() + ' del programa:\n• ' + (p ? p.nombre : '') + '\n\n' +
       'Nombre: ' + values.nombres.trim() + ' ' + values.apellidos.trim() +
       '\nCorreo: ' + values.correo.trim() + '\nCelular: ' + values.celular.trim()
-    /* ENVÍO */
+    /* ENVÍO: CRM en segundo plano + WhatsApp (window.open debe ir dentro del clic) */
+    sendLead({
+      tipo: values.tipo,
+      nombres: values.nombres.trim(),
+      apellidos: values.apellidos.trim(),
+      correo: values.correo.trim(),
+      celular: values.celular.trim(),
+      programa: p ? p.nombre : '',
+      programaId: values.programa,
+      privacidad: values.privacidad,
+      consentimiento: CONSENT_VERSION,
+      website: form.elements.website?.value || '',
+    })
     window.open(wa(msg), '_blank', 'noopener')
     setSentTo(values.nombres.trim())
   }
@@ -146,23 +160,40 @@ export default function LeadForm({ inHero = false }) {
         </span>
       </label>
 
+      {/* Nota informativa (Ley N.º 29733, Ley de Protección de Datos Personales) */}
+      <p className={s.leadLegal} id="nota-datos">
+        <b>Protección de datos personales.</b> Conforme a la Ley N.º 29733 y su Reglamento (D.S. N.º 016-2024-JUS),
+        la Unidad de Posgrado FIP-UNI usará tus datos solo para enviarte la información solicitada y contactarte sobre
+        sus programas. No los compartimos con terceros. Puedes ejercer tus derechos de acceso, rectificación,
+        cancelación y oposición en{' '}
+        <a href={'mailto:' + (K.correo || 'posgrado-fip@uni.edu.pe')}>{K.correo || 'posgrado-fip@uni.edu.pe'}</a>.{' '}
+        <Link to="/privacidad" target="_blank" rel="noopener">
+          Política de privacidad
+        </Link>
+      </p>
       <label className={cx(s.field, s.fieldCheck, bad.privacidad && s.isBad)}>
-        <input type="checkbox" name="privacidad" required checked={values.privacidad} onChange={set('privacidad')} />
-        <span>
-          Acepto la{' '}
-          <Link to="/privacidad" target="_blank" rel="noopener">
-            política de privacidad
-          </Link>{' '}
-          y el tratamiento de mis datos personales.
-        </span>
+        <input
+          type="checkbox"
+          name="privacidad"
+          required
+          aria-describedby="nota-datos"
+          checked={values.privacidad}
+          onChange={set('privacidad')}
+        />
+        <span>He leído la nota y autorizo el tratamiento de mis datos personales conforme a la Ley N.º 29733.</span>
       </label>
 
+      {/* Campo trampa para bots (invisible para personas) */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="sr-only" defaultValue="" />
+
       <p className={s.leadErr} role="alert" hidden={!showErr}>
-        Completa todos los campos y acepta la política de privacidad.
+        Completa todos los campos.
       </p>
-      <button className="btn btn--primary btn--block" type="submit">
+      {/* Solo se puede enviar después de aceptar el tratamiento de datos */}
+      <button className="btn btn--primary btn--block" type="submit" disabled={!values.privacidad}>
         Solicita información
       </button>
+      {!values.privacidad && <p className={s.leadHint}>Marca la autorización de datos personales para enviar.</p>}
       <p className={s.leadNote}>
         <Icon name="lock" />
         Tu información está segura. No compartimos tus datos.

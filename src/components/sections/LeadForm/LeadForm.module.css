@@ -324,3 +324,35 @@ main > section h2:not(.lead__title):not(:global(.sub-h3)) {
   font-size: var(--t-h2) !important;
   line-height: 1.12;
 }
+
+/* Nota de protección de datos personales (Ley N.º 29733) y envío condicionado a la autorización */
+.lead__legal {
+  margin: 4px 0 10px;
+  padding: 10px 12px;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--suave);
+  background: var(--crema);
+  border-left: 3px solid var(--oro);
+  border-radius: var(--r-sm);
+}
+.lead__legal b {
+  color: var(--tinta);
+}
+.lead__legal a {
+  color: var(--verde);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.lead :global(.btn):disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+.lead__hint {
+  margin: 6px 0 0;
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--suave);
+}
