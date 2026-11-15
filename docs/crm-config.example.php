@@ -1,19 +1,19 @@
 <?php
 /**
- * Configuración del embudo (CRM Dolibarr) · Posgrado FIP-UNI
+ * Configuración OPCIONAL del embudo (CRM Dolibarr) · Posgrado FIP-UNI
  * ---------------------------------------------------------------------
- * 1. Copia este archivo como  crm-config.php
- * 2. Súbelo a tu carpeta personal de Hostinger, FUERA de public_html
- *    (hPanel → Administrador de archivos → carpeta raíz /home/uXXXXXXX/).
- *    /api/lead.php lo encuentra solo, subiendo desde su carpeta.
- * 3. Nunca lo subas a GitHub: contiene la clave de la API.
+ * Lo mínimo es la clave en  privado/dolibarr-api.key  (junto a public_html).
+ * Usa este archivo solo para cambiar los valores por defecto:
+ * 1. Cópialo como  privado/crm-config.php  (junto a public_html, no dentro).
+ * 2. Borra las líneas que no necesites cambiar.
+ * 3. Nunca lo subas a GitHub.
  */
 return [
     // Dirección de Dolibarr (sin / al final)
     'dolibarr_url' => 'https://crm.posgrado-fip.org.pe',
 
-    // Clave API del usuario "web-formulario" (Dolibarr → Usuarios → web-formulario → Clave para API)
-    'dolibarr_api_key' => 'PEGAR_AQUI_LA_CLAVE',
+    // Normalmente vacío: la clave se lee de privado/dolibarr-api.key
+    // 'dolibarr_api_key' => '',
 
     // Sitios que pueden enviar el formulario
     'origenes_permitidos' => [
