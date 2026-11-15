@@ -92,6 +92,7 @@ $programa   = $txt('programa', 200);
 $programaId = $txt('programaId', 80);
 $tipo       = $txt('tipo', 40);
 $pagina     = $txt('pagina', 300);
+$consentimiento = $txt('consentimiento', 100);
 $utm = [];
 foreach (['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as $k) {
     if (($v = $txt($k, 100)) !== '') $utm[$k] = $v;
@@ -163,8 +164,8 @@ $ref = 'WEB-' . date('ymd-His') . '-' . substr(bin2hex(random_bytes(2)), 0, 4);
     'opp_amount'        => (float) (($cfg['valor_por_programa'][$programaId] ?? 0)),
     'date_start'        => time(),
     'description'       => "Solicitud: $tipo\nPrograma: $programa\nCorreo: $correo\nCelular: $celular\n"
-                         . "Origen: $origenTxt\nPágina: $pagina\nConsentimiento de privacidad: sí ("
-                         . date('Y-m-d H:i') . ')',
+                         . "Origen: $origenTxt\nPágina: $pagina\nConsentimiento de datos personales (Ley 29733): sí, "
+                         . date('Y-m-d H:i') . ($consentimiento !== '' ? " · $consentimiento" : ''),
 ]);
 if ($code >= 300 || !is_numeric($pid)) responder(502, ['ok' => false, 'error' => 'No se pudo registrar (oportunidad)']);
 
