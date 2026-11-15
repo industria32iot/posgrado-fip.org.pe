@@ -1,7 +1,32 @@
-# Apache (cPanel u hosting similar): todas las rutas de la SPA sirven index.html
-# para que /programa/<id> y /privacidad funcionen al recargar o abrir un enlace directo.
+# Apache (Hostinger / cPanel)
+
+# No listar el contenido de las carpetas
+Options -Indexes
+
+# Bloquear archivos que nunca deben descargarse: claves, configuración,
+# archivos ocultos (.git, .env, .htaccess) y respaldos
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+  RewriteRule (^|/)privado(/|$) - [F,L]
+</IfModule>
+<FilesMatch "(?i)\.(key|pem|env|ini|log|sql|bak|old|orig|swp|zip|tar|gz)$|^crm-config\.php$|~$">
+  Require all denied
+</FilesMatch>
+
+# Cabeceras de seguridad
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  # Solo por HTTPS: el navegador recordará usar siempre HTTPS durante 1 año
+  Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+</IfModule>
+
+# SPA: todas las rutas sirven index.html para que /programa/<id> y /privacidad
+# funcionen al recargar o abrir un enlace directo.
+<IfModule mod_rewrite.c>
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
