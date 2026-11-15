@@ -226,7 +226,7 @@ export const CONTENIDO = {
       foto: "assets/lote-ix.jpg",   // FALTA: foto propia del Lote IX
       fotoAlt: "Campo petrolero del Lote IX en Talara",
       titulo: "Lote IX · Talara",
-      texto: "Campo petrolero operado por UNIPETRO, empresa de la UNI: un centro de investigación y capacitación en operación real.",   // CONFIRMAR datos con la Facultad
+      texto: "Campo petrolero operado por UNIENERGIA ABC S.A.C., empresa de la UNI: un centro de investigación y capacitación en operación real.",   // CONFIRMAR datos con la Facultad
       enlace: ""                    // opcional: página con más información
     },
     /* RESULTADOS DE INVESTIGACIÓN (indicadores)
