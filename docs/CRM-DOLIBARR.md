@@ -106,6 +106,7 @@ Anota el **ID** de "Interesado": va en `etapa_inicial_id` del archivo de configu
 
 1. Crea la carpeta **`privado/`** junto a `public_html` (no dentro), como en Colibrí.
 2. Dentro, crea el archivo **`dolibarr-api.key`** con **solo la clave** (una línea).
+   > **Importante:** si `privado/` queda dentro de `public_html` (o de la carpeta del subdominio), `api/lead.php` **ignora la clave** por seguridad y el formulario responde "CRM no configurado". El motivo queda en el registro de errores de PHP (hPanel → Avanzado → Registros de errores).
 3. Listo: `api/lead.php` la encuentra solo y usa por defecto `https://crm.posgrado-fip.org.pe`, la etapa con ID 1 y los dominios `nuevo.`, `www.` y `posgrado-fip.org.pe`.
 4. Opcional: para cambiar la etapa inicial o poner el **valor de cada programa** (valor del embudo), copia [`docs/crm-config.example.php`](crm-config.example.php) como `privado/crm-config.php` y edítalo.
 5. Prueba: envía el formulario en `https://nuevo.posgrado-fip.org.pe` → en Dolibarr debe aparecer el tercero y una oportunidad validada `WEB-…` en "Interesado".
