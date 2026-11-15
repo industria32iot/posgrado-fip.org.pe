@@ -9,7 +9,7 @@ Visitante ──► Web (nuevo.posgrado-fip.org.pe) ──► /api/lead.php ─�
    └──────────────────────────────► WhatsApp (respuesta inmediata del asesor, como hasta ahora)
 ```
 
-Tiempo estimado: 45–60 minutos. Todo se hace en **hPanel** (panel de Hostinger) y en **GitHub**.
+Tiempo estimado: 45–60 minutos. Todo se hace en **hPanel** (panel de Hostinger) y en **GitHub**, sin secrets: la clave del CRM vive en el servidor, como en colibriperu.org.pe.
 
 ---
 
@@ -26,25 +26,22 @@ Tiempo estimado: 45–60 minutos. Todo se hace en **hPanel** (panel de Hostinger
 ## 1. Subdominio de prueba `nuevo.posgrado-fip.org.pe`
 
 1. hPanel → **Dominios → Subdominios** → crear `nuevo`. Hostinger crea la carpeta (normalmente `public_html/nuevo`) y activa SSL en unos minutos.
-2. hPanel → **Archivos → Cuentas FTP** → **crear una cuenta FTP limitada a esa carpeta** (`public_html/nuevo`).
-   Así, aunque la clave se filtrara, solo podría tocar la copia de prueba.
-3. Anota: **servidor FTP**, **usuario** y **contraseña** de esa cuenta.
 
-### Conectar GitHub con Hostinger
+### Publicar la web (sin secrets, como en colibriperu.org.pe)
 
-GitHub → repositorio → **Settings → Secrets and variables → Actions → New repository secret**:
-
-| Secret           | Valor                                                                 |
-| ---------------- | --------------------------------------------------------------------- |
-| `FTP_SERVER`     | servidor FTP (ej. `ftp.posgrado-fip.org.pe` o la IP que muestra hPanel) |
-| `FTP_USERNAME`   | usuario de la cuenta FTP limitada                                     |
-| `FTP_PASSWORD`   | contraseña de esa cuenta                                              |
-| `FTP_SERVER_DIR` | `/` (la cuenta ya está limitada a `public_html/nuevo`)                 |
-
-Luego: **Actions → Publicar en Hostinger → Run workflow**. En 1–2 minutos la web estará en `https://nuevo.posgrado-fip.org.pe`.
-A partir de ahí se publica sola con cada cambio en `main`. Mientras sea de prueba lleva `noindex` (Google no la indexa).
+1. GitHub → **Actions → Publicar en Hostinger** → abre la última ejecución (se ejecuta sola con cada cambio en `main`, o con **Run workflow**).
+2. Al final de la página, en **Artifacts**, descarga **`sitio-hostinger`** (.zip).
+3. hPanel → **Administrador de archivos** → `public_html/nuevo/` → sube el .zip → clic derecho → **Extraer** → borra el .zip.
+   Deben quedar `index.html`, `assets/`, `api/lead.php` y el archivo oculto `.htaccess`.
+4. Abre `https://nuevo.posgrado-fip.org.pe`. Mientras sea de prueba lleva `noindex` (Google no la indexa).
 
 > La web funciona aunque el CRM aún no exista: el formulario sigue abriendo WhatsApp y el envío al CRM simplemente no se registra.
+
+<details>
+<summary>Opcional: que se publique sola por FTP</summary>
+
+Crea en hPanel una **cuenta FTP limitada a `public_html/nuevo`** y guarda en GitHub → **Settings → Secrets and variables → Actions**: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` y `FTP_SERVER_DIR` (`/` si la cuenta ya está limitada a esa carpeta). Desde entonces el workflow también la sube por FTPS en cada cambio.
+</details>
 
 ---
 
@@ -54,22 +51,23 @@ A partir de ahí se publica sola con cada cambio en `main`. Mientras sea de prue
 
 hPanel → **Bases de datos → Administración** → crear una base MySQL nueva (ej. `uXXX_crm`) con su usuario y una **contraseña larga**. Anota los cuatro datos (nombre de base, usuario, contraseña, servidor `localhost`).
 
-### 2.2 Archivos
+### 2.2 Archivos (mismo esquema que crm.colibriperu.org.pe)
 
 1. Descarga la **última versión estable** de Dolibarr (`.zip`) desde <https://www.dolibarr.org/downloads.php>.
-2. hPanel → **Administrador de archivos** → en tu carpeta personal (`/home/uXXX/`, **fuera de `public_html`**) crea `dolibarr/`, sube el `.zip` y usa **Extraer**. Debe quedar `/home/uXXX/dolibarr/htdocs/…`.
-3. Crea también `/home/uXXX/dolibarr-documents/` (ahí Dolibarr guarda adjuntos y bloqueos; no debe ser accesible desde la web).
-4. hPanel → **Dominios → Subdominios** → crear `crm` con **carpeta personalizada** apuntando a `/home/uXXX/dolibarr/htdocs`.
-   Si tu plan no permite carpetas fuera de `public_html`, usa `public_html/crm` y sube ahí el **contenido** de `htdocs`.
+2. hPanel → **Dominios → Subdominios** → crear `crm`, con carpeta **`public_html/crm`**.
+3. **Administrador de archivos** → sube el .zip, **Extrae**, y copia el **contenido de `htdocs/`** dentro de `public_html/crm/`.
+4. Crea **`dolibarr-documentos/`** junto a `public_html` (no dentro): ahí Dolibarr guarda adjuntos y el bloqueo del instalador.
 5. Verifica que el SSL de `crm.posgrado-fip.org.pe` esté activo (hPanel → **Seguridad → SSL**).
+
+> **Al volver a publicar la web no borres `public_html/crm/`.**
 
 ### 2.3 Instalador web
 
 1. Abre `https://crm.posgrado-fip.org.pe/install/`.
-2. Idioma **Español (Perú)**. Directorio de documentos: `/home/uXXX/dolibarr-documents`. URL: `https://crm.posgrado-fip.org.pe`.
+2. Idioma **Español (Perú)**. Directorio de documentos: la ruta completa de `dolibarr-documentos` (ej. `/home/uXXX/domains/posgrado-fip.org.pe/dolibarr-documentos`). URL: `https://crm.posgrado-fip.org.pe`.
 3. Base de datos: los datos del paso 2.1 (**no** marques "crear base de datos": ya existe).
 4. Crea el usuario **administrador** con contraseña robusta (no uses `admin`).
-5. Al terminar, deja que el instalador cree el archivo **`install.lock`** (bloquea el instalador). Si no lo crea, créalo vacío en `/home/uXXX/dolibarr-documents/install.lock`.
+5. Al terminar, deja que el instalador cree el archivo **`install.lock`** (bloquea el instalador). Si no lo crea, créalo vacío dentro de `dolibarr-documentos/`.
 
 ### 2.4 Módulos a activar
 
@@ -100,15 +98,17 @@ Anota el **ID** de "Interesado": va en `etapa_inicial_id` del archivo de configu
 
 ### 2.6 Usuario técnico para la web (clave API)
 
-1. **Usuarios y grupos → Nuevo usuario**: `web-formulario`, sin acceso de administrador.
+1. **Usuarios y grupos → Nuevo usuario**: `api-web` (mismo nombre que en Colibrí), sin acceso de administrador.
 2. Permisos mínimos: **Terceros** (leer, crear), **Contactos** (crear), **Proyectos** (leer, crear).
 3. En la ficha del usuario → **Clave para API** → generar y copiar.
 
-### 2.7 Archivo de configuración del formulario
+### 2.7 Clave de la API en el servidor (sin secrets)
 
-1. Copia [`docs/crm-config.example.php`](crm-config.example.php) como **`crm-config.php`** y completa la clave API, el ID de etapa y los valores por programa.
-2. Súbelo a **`/home/uXXX/crm-config.php`** (carpeta personal, **fuera de `public_html`**). `/api/lead.php` lo encuentra solo.
-3. Prueba: envía el formulario en `https://nuevo.posgrado-fip.org.pe` → en Dolibarr debe aparecer el tercero y una oportunidad `WEB-…` en "Interesado".
+1. Crea la carpeta **`privado/`** junto a `public_html` (no dentro), como en Colibrí.
+2. Dentro, crea el archivo **`dolibarr-api.key`** con **solo la clave** (una línea).
+3. Listo: `api/lead.php` la encuentra solo y usa por defecto `https://crm.posgrado-fip.org.pe`, la etapa con ID 1 y los dominios `nuevo.`, `www.` y `posgrado-fip.org.pe`.
+4. Opcional: para cambiar la etapa inicial o poner el **valor de cada programa** (valor del embudo), copia [`docs/crm-config.example.php`](crm-config.example.php) como `privado/crm-config.php` y edítalo.
+5. Prueba: envía el formulario en `https://nuevo.posgrado-fip.org.pe` → en Dolibarr debe aparecer el tercero y una oportunidad validada `WEB-…` en "Interesado".
 
 ---
 
@@ -139,6 +139,5 @@ Guardar los datos del formulario en Dolibarr es **tratamiento de datos personale
 ## 5. Pasar la web nueva a producción (cuando la prueba esté aprobada)
 
 1. Nuevo respaldo del sitio actual (paso 0).
-2. Crea una cuenta FTP limitada a `public_html` (o cambia `FTP_SERVER_DIR`) y actualiza los secrets.
-3. En GitHub → **Settings → Secrets and variables → Actions → Variables**: `HOSTINGER_NOINDEX` = `false` (para que Google indexe la web).
-4. Ejecuta **Publicar en Hostinger**. El `.htaccess` incluido hace funcionar las rutas `/programa/...` y `/privacidad`.
+2. En GitHub → **Settings → Secrets and variables → Actions → Variables**: `HOSTINGER_NOINDEX` = `false` (para que Google indexe la web) y ejecuta **Publicar en Hostinger**.
+3. Sube el artefacto `sitio-hostinger` a **`public_html/`** (sin tocar `public_html/crm/` ni la carpeta `nuevo/`). El `.htaccess` incluido hace funcionar `/programa/...` y `/privacidad`.

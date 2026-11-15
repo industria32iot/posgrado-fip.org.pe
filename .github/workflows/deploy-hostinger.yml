@@ -1,15 +1,13 @@
-# Publica el sitio en Hostinger por FTP cada vez que se actualiza main.
+# Compila el sitio para Hostinger en cada cambio de main (o a mano: Actions → "Publicar en Hostinger" → Run workflow).
 #
-# Configuración (una sola vez) en GitHub → Settings → Secrets and variables → Actions:
-#   Secrets:
-#     FTP_SERVER      servidor FTP de Hostinger (hPanel → Archivos → Cuentas FTP), ej. ftp.posgrado-fip.org.pe
-#     FTP_USERNAME    usuario FTP
-#     FTP_PASSWORD    contraseña FTP
-#     FTP_SERVER_DIR  carpeta de destino, terminada en /, ej. /domains/posgrado-fip.org.pe/public_html/nuevo/
-#   Variables (opcional):
-#     HOSTINGER_NOINDEX  "false" cuando el sitio pase a producción (por defecto la copia NO se indexa)
+# Publicación SIN secrets (como colibriperu.org.pe):
+#   1. Abre la ejecución en Actions y descarga el artefacto "sitio-hostinger" (.zip).
+#   2. hPanel → Administrador de archivos → carpeta del subdominio (ej. public_html/nuevo/)
+#      → sube el .zip → Extraer. Incluye el archivo oculto .htaccess y api/lead.php.
 #
-# Mientras falten los secrets, el workflow termina sin publicar nada.
+# Publicación automática por FTP (opcional): si existen los secrets FTP_SERVER, FTP_USERNAME,
+# FTP_PASSWORD y FTP_SERVER_DIR (Settings → Secrets and variables → Actions), además se sube sola.
+# Variable opcional HOSTINGER_NOINDEX = "false" cuando el sitio pase a producción (por defecto no se indexa).
 name: Publicar en Hostinger
 
 on:
@@ -22,11 +20,32 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Comprobar configuración
-        id: cfg
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Compilar
+        run: npx vite build
+        env:
+          # El formulario registra a los interesados en Dolibarr a través de este endpoint PHP
+          VITE_LEAD_ENDPOINT: /api/lead.php
+          NOINDEX: ${{ vars.HOSTINGER_NOINDEX != 'false' }}
+
+      - name: Artefacto para subir a mano
+        uses: actions/upload-artifact@v4
+        with:
+          name: sitio-hostinger
+          path: dist/
+          include-hidden-files: true # .htaccess (rutas /programa/... y /privacidad)
+          retention-days: 30
+
+      - name: Comprobar si hay FTP configurado
+        id: ftp
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -36,38 +55,18 @@ jobs:
           if [ -n "$FTP_SERVER" ] && [ -n "$FTP_USERNAME" ] && [ -n "$FTP_PASSWORD" ] && [ -n "$FTP_SERVER_DIR" ]; then
             echo "listo=true" >> "$GITHUB_OUTPUT"
           else
-            echo "::notice::Faltan los secrets FTP_*: no se publica en Hostinger (ver comentarios del workflow)."
+            echo "::notice::Sin FTP configurado: descarga el artefacto 'sitio-hostinger' y súbelo con el administrador de archivos de hPanel."
             echo "listo=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - if: steps.cfg.outputs.listo == 'true'
-        uses: actions/checkout@v4
-
-      - if: steps.cfg.outputs.listo == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - if: steps.cfg.outputs.listo == 'true'
-        run: npm ci
-
-      - if: steps.cfg.outputs.listo == 'true'
-        name: Compilar
-        run: npx vite build
-        env:
-          # El formulario registra a los interesados en Dolibarr a través de este endpoint PHP
-          VITE_LEAD_ENDPOINT: /api/lead.php
-          NOINDEX: ${{ vars.HOSTINGER_NOINDEX != 'false' }}
-
-      - if: steps.cfg.outputs.listo == 'true'
-        name: Subir por FTP
+      - name: Subir por FTP (opcional)
+        if: steps.ftp.outputs.listo == 'true'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           local-dir: ./dist/
-          # Solo sube archivos nuevos o cambiados (y quita del servidor los que se borren de dist/)
-          dangerous-clean-slate: false

@@ -9,9 +9,12 @@
  *   3. Oportunidad (proyecto con seguimiento de oportunidad) en la etapa
  *      inicial del embudo, con el programa, el tipo de solicitud y el origen (UTM)
  *
- * La clave de la API NO está aquí: se lee de crm-config.php, que debe
- * guardarse FUERA de public_html (ver docs/CRM-DOLIBARR.md). Este archivo
- * busca crm-config.php subiendo desde su carpeta.
+ * La clave de la API NO está aquí ni en GitHub. Igual que en colibriperu.org.pe,
+ * se guarda en el servidor FUERA de public_html, en:
+ *     privado/dolibarr-api.key        (solo la clave, una línea)
+ * Opcional: privado/crm-config.php (o crm-config.php) para cambiar la URL del CRM,
+ * los dominios permitidos, la etapa inicial o el valor por programa.
+ * Ambos se buscan subiendo desde esta carpeta (ver docs/CRM-DOLIBARR.md).
  *
  * Responde JSON: {"ok":true} o {"ok":false,"error":"..."}
  */
@@ -28,20 +31,41 @@ function responder(int $code, array $body): void
 }
 
 /* ---------- Configuración (fuera de public_html) ---------- */
-function cargarConfig(): array
+/* Busca un archivo subiendo desde esta carpeta (hasta 6 niveles) */
+function buscarArriba(array $nombres): ?string
 {
     $dir = __DIR__;
     for ($i = 0; $i < 6; $i++) {
-        $f = $dir . '/crm-config.php';
-        if (is_file($f)) {
-            $c = require $f;
-            if (is_array($c)) return $c;
+        foreach ($nombres as $n) {
+            if (is_file("$dir/$n")) return "$dir/$n";
         }
         $parent = dirname($dir);
         if ($parent === $dir) break;
         $dir = $parent;
     }
-    return [];
+    return null;
+}
+function cargarConfig(): array
+{
+    $cfg = [
+        'dolibarr_url'        => 'https://crm.posgrado-fip.org.pe',
+        'dolibarr_api_key'    => '',
+        'origenes_permitidos' => [
+            'https://nuevo.posgrado-fip.org.pe',
+            'https://www.posgrado-fip.org.pe',
+            'https://posgrado-fip.org.pe',
+        ],
+        'etapa_inicial_id'    => 1,
+        'valor_por_programa'  => [],
+    ];
+    if ($f = buscarArriba(['privado/crm-config.php', 'crm-config.php'])) {
+        $c = require $f;
+        if (is_array($c)) $cfg = array_merge($cfg, $c);
+    }
+    if ($cfg['dolibarr_api_key'] === '' && ($f = buscarArriba(['privado/dolibarr-api.key']))) {
+        $cfg['dolibarr_api_key'] = trim((string) file_get_contents($f));
+    }
+    return $cfg;
 }
 $cfg = cargarConfig();
 if (empty($cfg['dolibarr_url']) || empty($cfg['dolibarr_api_key'])) {
@@ -160,7 +184,9 @@ $ref = 'WEB-' . date('ymd-His') . '-' . substr(bin2hex(random_bytes(2)), 0, 4);
     'title'             => mb_substr("$programa · $nombreCompleto", 0, 255),
     'socid'             => $socid,
     'usage_opportunity' => 1,
+    'usage_task'        => 1,
     'opp_status'        => (int) ($cfg['etapa_inicial_id'] ?? 1),
+    'opp_percent'       => 10,
     'opp_amount'        => (float) (($cfg['valor_por_programa'][$programaId] ?? 0)),
     'date_start'        => time(),
     'description'       => "Solicitud: $tipo\nPrograma: $programa\nCorreo: $correo\nCelular: $celular\n"
@@ -168,5 +194,8 @@ $ref = 'WEB-' . date('ymd-His') . '-' . substr(bin2hex(random_bytes(2)), 0, 4);
                          . date('Y-m-d H:i') . ($consentimiento !== '' ? " · $consentimiento" : ''),
 ]);
 if ($code >= 300 || !is_numeric($pid)) responder(502, ['ok' => false, 'error' => 'No se pudo registrar (oportunidad)']);
+
+/* Validar la oportunidad: en borrador no aparece en el embudo (igual que en colibriperu.org.pe) */
+dolibarr($cfg, 'POST', 'projects/' . (int) $pid . '/validate', ['notrigger' => 0]);
 
 responder(200, ['ok' => true]);
