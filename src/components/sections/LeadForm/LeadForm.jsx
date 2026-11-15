@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ORDEN_TIPOS, TIPOS, porTipo, progById, wa } from '../../../utils/content.js'
 import { cx } from '../../../utils/cx.js'
+import { sendLead } from '../../../utils/lead.js'
 import Icon from '../../ui/Icon/Icon.jsx'
 import { useLeadForm } from './LeadFormContext.jsx'
 import s from './LeadForm.module.css'
@@ -13,8 +14,8 @@ const TIPOS_INFO = [
 
 /**
  * Formulario de captación (único en el sitio).
- * Sin backend: valida y abre WhatsApp con los datos. Para guardar registros,
- * reemplazar el bloque ENVÍO por un fetch() al servicio (Sheets, CRM, API).
+ * Valida, registra al interesado en el CRM (Dolibarr, si el despliegue define
+ * VITE_LEAD_ENDPOINT) y abre WhatsApp con los datos para atención inmediata.
  * inHero: estilo compacto y animación de entrada de la portada.
  */
 export default function LeadForm({ inHero = false }) {
@@ -32,7 +33,7 @@ export default function LeadForm({ inHero = false }) {
   const onSubmit = (e) => {
     e.preventDefault()
     const form = formRef.current
-    const fields = Array.from(form.querySelectorAll('input:not([type=radio]), select'))
+    const fields = Array.from(form.querySelectorAll('input:not([type=radio]):not([name=website]), select'))
     const nextBad = {}
     fields.forEach((f) => {
       nextBad[f.name] = f.type === 'checkbox' ? !f.checked : !f.checkValidity() || !String(f.value).trim()
@@ -50,7 +51,18 @@ export default function LeadForm({ inHero = false }) {
       'Hola, solicito ' + values.tipo.toLowerCase() + ' del programa:\n• ' + (p ? p.nombre : '') + '\n\n' +
       'Nombre: ' + values.nombres.trim() + ' ' + values.apellidos.trim() +
       '\nCorreo: ' + values.correo.trim() + '\nCelular: ' + values.celular.trim()
-    /* ENVÍO */
+    /* ENVÍO: CRM en segundo plano + WhatsApp (window.open debe ir dentro del clic) */
+    sendLead({
+      tipo: values.tipo,
+      nombres: values.nombres.trim(),
+      apellidos: values.apellidos.trim(),
+      correo: values.correo.trim(),
+      celular: values.celular.trim(),
+      programa: p ? p.nombre : '',
+      programaId: values.programa,
+      privacidad: values.privacidad,
+      website: form.elements.website?.value || '',
+    })
     window.open(wa(msg), '_blank', 'noopener')
     setSentTo(values.nombres.trim())
   }
@@ -156,6 +168,9 @@ export default function LeadForm({ inHero = false }) {
           y el tratamiento de mis datos personales.
         </span>
       </label>
+
+      {/* Campo trampa para bots (invisible para personas) */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="sr-only" defaultValue="" />
 
       <p className={s.leadErr} role="alert" hidden={!showErr}>
         Completa todos los campos y acepta la política de privacidad.

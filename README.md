@@ -122,7 +122,9 @@ Todas las animaciones respetan la preferencia del sistema **"reducir movimiento"
 
 ### Formulario "Solicita información"
 
-No necesita backend: valida los campos y abre WhatsApp con un mensaje prellenado. Para guardar los registros en Google Sheets, un CRM o una API, reemplaza el bloque marcado como `/* ENVÍO */` en `src/components/sections/LeadForm/LeadForm.jsx` por un `fetch()` a ese servicio.
+Valida los campos y abre WhatsApp con un mensaje prellenado. En el despliegue de Hostinger, además registra al interesado en el **CRM Dolibarr** (`crm.posgrado-fip.org.pe`) mediante `public/api/lead.php`, con el programa, el tipo de solicitud y el origen de la visita (UTM). La clave de la API se guarda en el servidor, fuera de `public_html`, y nunca en el código.
+
+Instalación, configuración del CRM y uso del embudo: **[docs/CRM-DOLIBARR.md](docs/CRM-DOLIBARR.md)**.
 
 ---
 
@@ -135,6 +137,7 @@ npm run build
 Sube el contenido de **`dist/`** a tu hosting. Como es una SPA, el servidor debe responder con `index.html` en cualquier ruta (`/programa/...`, `/privacidad`):
 
 - **GitHub Pages:** se publica solo con `.github/workflows/deploy-pages.yml` en cada push a `main` (compila con la base `/<repositorio>/` y crea `404.html` para las rutas). Requisito único: *Settings → Pages → Source: GitHub Actions*. El sitio queda en `https://industria32iot.github.io/posgrado-fip.org.pe/`.
+- **Hostinger:** se publica solo por FTP con `.github/workflows/deploy-hostinger.yml` (prueba en `nuevo.posgrado-fip.org.pe`). Configuración en [docs/CRM-DOLIBARR.md](docs/CRM-DOLIBARR.md).
 - **Apache / cPanel:** ya está resuelto con `public/.htaccess`, que se copia a `dist/`.
 - **Netlify:** crea `public/_redirects` con la línea `/*  /index.html  200`.
 - **Vercel:** usa una regla `rewrites` de `/(.*)` a `/index.html` en `vercel.json`.
