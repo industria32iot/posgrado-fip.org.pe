@@ -122,7 +122,7 @@ Todas las animaciones respetan la preferencia del sistema **"reducir movimiento"
 
 ### Formulario "Solicita información"
 
-Valida los campos y abre WhatsApp con un mensaje prellenado. En el despliegue de Hostinger, además registra al interesado en el **CRM Dolibarr** (`crm.posgrado-fip.org.pe`) mediante `public/api/lead.php`, con el programa, el tipo de solicitud y el origen de la visita (UTM). La clave de la API se guarda en el servidor, en `privado/dolibarr-api.key` junto a `public_html` (igual que en colibriperu.org.pe), nunca en el código ni en GitHub.
+Valida los campos y abre WhatsApp con un mensaje prellenado. En el despliegue de Hostinger, además registra al interesado en el **CRM Dolibarr** (`portal.posgrado-fip.org.pe`) mediante `public/api/lead.php`, con el programa, el tipo de solicitud y el origen de la visita (UTM). La clave de la API se guarda en el servidor, en `privado/dolibarr-api.key` junto a `public_html` (igual que en colibriperu.org.pe), nunca en el código ni en GitHub.
 
 Instalación, configuración del CRM y uso del embudo: **[docs/CRM-DOLIBARR.md](docs/CRM-DOLIBARR.md)**.
 

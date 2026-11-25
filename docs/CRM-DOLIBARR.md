@@ -1,9 +1,9 @@
 # Prueba en Hostinger + CRM Dolibarr + embudo de captación
 
-Guía para publicar la web nueva en **`nuevo.posgrado-fip.org.pe`** (sin tocar el sitio actual), instalar **Dolibarr** en **`crm.posgrado-fip.org.pe`** y conectar el formulario "Solicita información" al CRM.
+Guía para publicar la web nueva en **`nuevo.posgrado-fip.org.pe`** (sin tocar el sitio actual), instalar **Dolibarr** en **`portal.posgrado-fip.org.pe`** y conectar el formulario "Solicita información" al CRM.
 
 ```
-Visitante ──► Web (nuevo.posgrado-fip.org.pe) ──► /api/lead.php ──► Dolibarr (crm.posgrado-fip.org.pe)
+Visitante ──► Web (nuevo.posgrado-fip.org.pe) ──► /api/lead.php ──► Dolibarr (portal.posgrado-fip.org.pe)
    │ llega por un anuncio con ?utm_...           (PHP en Hostinger,        Tercero (prospecto) + contacto
    │                                              guarda la clave API)     + Oportunidad en etapa "Interesado"
    └──────────────────────────────► WhatsApp (respuesta inmediata del asesor, como hasta ahora)
@@ -45,7 +45,7 @@ Crea en hPanel una **cuenta FTP limitada a `public_html/nuevo`** y guarda en Git
 
 ---
 
-## 2. Instalar Dolibarr en `crm.posgrado-fip.org.pe`
+## 2. Instalar Dolibarr en `portal.posgrado-fip.org.pe`
 
 ### 2.1 Base de datos
 
@@ -54,17 +54,22 @@ hPanel → **Bases de datos → Administración** → crear una base MySQL nueva
 ### 2.2 Archivos (mismo esquema que crm.colibriperu.org.pe)
 
 1. Descarga la **última versión estable** de Dolibarr (`.zip`) desde <https://www.dolibarr.org/downloads.php>.
-2. hPanel → **Dominios → Subdominios** → crear `crm`, con carpeta **`public_html/crm`**.
-3. **Administrador de archivos** → sube el .zip, **Extrae**, y copia el **contenido de `htdocs/`** dentro de `public_html/crm/`.
+2. hPanel → **Dominios → Subdominios** → crear `portal`, con carpeta **`public_html/portal`**.
+3. **Administrador de archivos** → sube el .zip, **Extrae**, y copia el **contenido de `htdocs/`** dentro de `public_html/portal/` (borra antes el `index.html` / `default.php` de «Coming soon» que crea Hostinger).
 4. Crea **`dolibarr-documentos/`** junto a `public_html` (no dentro): ahí Dolibarr guarda adjuntos y el bloqueo del instalador.
-5. Verifica que el SSL de `crm.posgrado-fip.org.pe` esté activo (hPanel → **Seguridad → SSL**).
+5. Verifica que el SSL de `portal.posgrado-fip.org.pe` esté activo (hPanel → **Seguridad → SSL**).
 
-> **Al volver a publicar la web no borres `public_html/crm/`.**
+6. Si en `public_html/portal/` **no** hay un archivo `.htaccess`, crea uno con esta única línea, para que las reglas de la web principal (`public_html/.htaccess`) no afecten a Dolibarr:
+   ```
+   RewriteEngine On
+   ```
+
+> **Al volver a publicar la web no borres `public_html/portal/`.**
 
 ### 2.3 Instalador web
 
-1. Abre `https://crm.posgrado-fip.org.pe/install/`.
-2. Idioma **Español (Perú)**. Directorio de documentos: la ruta completa de `dolibarr-documentos` (ej. `/home/uXXX/domains/posgrado-fip.org.pe/dolibarr-documentos`). URL: `https://crm.posgrado-fip.org.pe`.
+1. Abre `https://portal.posgrado-fip.org.pe/install/`.
+2. Idioma **Español (Perú)**. Directorio de documentos: la ruta completa de `dolibarr-documentos` (ej. `/home/uXXX/domains/posgrado-fip.org.pe/dolibarr-documentos`). URL: `https://portal.posgrado-fip.org.pe`.
 3. Base de datos: los datos del paso 2.1 (**no** marques "crear base de datos": ya existe).
 4. Crea el usuario **administrador** con contraseña robusta (no uses `admin`).
 5. Al terminar, deja que el instalador cree el archivo **`install.lock`** (bloquea el instalador). Si no lo crea, créalo vacío dentro de `dolibarr-documentos/`.
@@ -107,7 +112,7 @@ Anota el **ID** de "Interesado": va en `etapa_inicial_id` del archivo de configu
 1. Crea la carpeta **`privado/`** junto a `public_html` (no dentro), como en Colibrí.
 2. Dentro, crea el archivo **`dolibarr-api.key`** con **solo la clave** (una línea).
    > **Importante:** si `privado/` queda dentro de `public_html` (o de la carpeta del subdominio), `api/lead.php` **ignora la clave** por seguridad y el formulario responde "CRM no configurado". El motivo queda en el registro de errores de PHP (hPanel → Avanzado → Registros de errores).
-3. Listo: `api/lead.php` la encuentra solo y usa por defecto `https://crm.posgrado-fip.org.pe`, la etapa con ID 1 y los dominios `nuevo.`, `www.` y `posgrado-fip.org.pe`.
+3. Listo: `api/lead.php` la encuentra solo y usa por defecto `https://portal.posgrado-fip.org.pe`, la etapa con ID 1 y los dominios `nuevo.`, `www.` y `posgrado-fip.org.pe`.
 4. Opcional: para cambiar la etapa inicial o poner el **valor de cada programa** (valor del embudo), copia [`docs/crm-config.example.php`](crm-config.example.php) como `privado/crm-config.php` y edítalo.
 5. Prueba: envía el formulario en `https://nuevo.posgrado-fip.org.pe` → en Dolibarr debe aparecer el tercero y una oportunidad validada `WEB-…` en "Interesado".
 
@@ -141,7 +146,7 @@ Guardar los datos del formulario en Dolibarr es **tratamiento de datos personale
 
 1. **Respaldo** del sitio actual (paso 0): archivos de `public_html` y bases de datos, descargados fuera de Hostinger.
 2. **Retira el sitio anterior** de `public_html/`: borra sus archivos y carpetas (por ejemplo `index.php`, `wp-*`, `.htaccess` antiguo).
-   **No borres** `crm/`, `nuevo/`, `.well-known/` ni la carpeta `privado/` (que está fuera de `public_html`).
+   **No borres** `portal/`, `nuevo/`, `.well-known/` ni la carpeta `privado/` (que está fuera de `public_html`).
    Es necesario porque, si queda un `index.php`, Hostinger lo muestra antes que el `index.html` de la web nueva.
 3. Descarga el artefacto **`sitio-hostinger`** de la última ejecución de **Actions → Publicar en Hostinger** (se compila para producción e indexable), súbelo a `public_html/` y **Extrae**.
 4. **Copia de prueba:** en `public_html/nuevo/` reemplaza todo por un `.htaccess` con
