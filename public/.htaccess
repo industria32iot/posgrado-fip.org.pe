@@ -3,6 +3,13 @@
 # No listar el contenido de las carpetas
 Options -Indexes
 
+# Dirección única: www.posgrado-fip.org.pe → https://posgrado-fip.org.pe (misma ruta)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.posgrado-fip\.org\.pe$ [NC]
+  RewriteRule ^ https://posgrado-fip.org.pe%{REQUEST_URI} [R=301,L]
+</IfModule>
+
 # Bloquear archivos que nunca deben descargarse: claves, configuración,
 # archivos ocultos (.git, .env, .htaccess) y respaldos
 <IfModule mod_rewrite.c>
