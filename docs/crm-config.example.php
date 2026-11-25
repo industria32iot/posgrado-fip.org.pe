@@ -10,7 +10,7 @@
  */
 return [
     // Dirección de Dolibarr (sin / al final)
-    'dolibarr_url' => 'https://crm.posgrado-fip.org.pe',
+    'dolibarr_url' => 'https://portal.posgrado-fip.org.pe',
 
     // Normalmente vacío: la clave se lee de privado/dolibarr-api.key
     // 'dolibarr_api_key' => '',

@@ -3,7 +3,7 @@
  * Embudo de captación · Posgrado FIP-UNI
  * ---------------------------------------------------------------------
  * Recibe el formulario "Solicita información" de la web y registra al
- * interesado en Dolibarr (crm.posgrado-fip.org.pe) mediante su API REST:
+ * interesado en Dolibarr (portal.posgrado-fip.org.pe) mediante su API REST:
  *   1. Tercero como "Cliente potencial" (se reutiliza si el correo ya existe)
  *   2. Contacto con nombre, correo y celular
  *   3. Oportunidad (proyecto con seguimiento de oportunidad) en la etapa
@@ -72,7 +72,7 @@ function buscarArriba(array $nombres, bool $soloPrivado = false): ?string
 function cargarConfig(): array
 {
     $cfg = [
-        'dolibarr_url'        => 'https://crm.posgrado-fip.org.pe',
+        'dolibarr_url'        => 'https://portal.posgrado-fip.org.pe',
         'dolibarr_api_key'    => '',
         'origenes_permitidos' => [
             'https://nuevo.posgrado-fip.org.pe',
