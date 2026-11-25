@@ -116,7 +116,8 @@ export const CONTENIDO = {
   porQue: {
     titulo: "Formación especializada para líderes del sector energético",
     tarjetas: [
-      { icono: "flask",   titulo: "Investigación y convenios", texto: "6 líneas de investigación y convenios con University of Alberta, Oklahoma y Texas A&M.", enlaceTexto: "Ver investigación", enlace: "#investigacion" },
+      { icono: "flask",   titulo: "Investigación", texto: "6 líneas de investigación alineadas a la transición energética.", enlaceTexto: "Ver investigación", enlace: "#investigacion" },
+      { icono: "globe",   titulo: "Convenios", texto: "Alianzas con University of Alberta, University of Oklahoma y Texas A&M.", enlaceTexto: "Ver convenios", enlace: "#convenios" },
       { icono: "user",    titulo: "Docentes con experiencia industrial", texto: "Exministro de Energía, líderes de Petroperú y profesores de universidades de EE. UU.", enlaceTexto: "Conoce a los docentes", enlace: "#docentes" },
       { icono: "book",    titulo: "Producción académica", texto: "{totalTesis} tesis de maestría publicadas en el Repositorio UNI desde 2010.", enlaceTexto: "Ver tesis", enlace: "#invResultados" },
       { icono: "factory", titulo: "Infraestructura especializada", texto: "Laboratorios de núcleos, fluidos de perforación, PVT y análisis de derivados.", enlaceTexto: "Nuestros laboratorios", enlace: "#laboratorios" }
@@ -392,7 +393,7 @@ export const CONTENIDO = {
      whatsapp: solo números con código de país (51...)
      ------------------------------------------------------------------- */
   /* sitioUrl: dirección final del sitio (con / al final). Se usa en los datos para Google (SEO). */
-  sitioUrl: "https://www.posgrado-fip.org.pe/",   // CONFIRMAR dominio definitivo
+  sitioUrl: "https://posgrado-fip.org.pe/",
   contacto: {
     direccion: "Av. Túpac Amaru N° 210, Rímac, Lima",
     referencia: "Unidad de Posgrado FIP, Pabellón D1",

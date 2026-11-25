@@ -7,7 +7,8 @@
 #
 # Publicación automática por FTP (opcional): si existen los secrets FTP_SERVER, FTP_USERNAME,
 # FTP_PASSWORD y FTP_SERVER_DIR (Settings → Secrets and variables → Actions), además se sube sola.
-# Variable opcional HOSTINGER_NOINDEX = "false" cuando el sitio pase a producción (por defecto no se indexa).
+# Variable opcional HOSTINGER_NOINDEX = "true" para compilar una copia de prueba que Google no indexe
+# (por defecto se compila para producción: https://posgrado-fip.org.pe).
 name: Publicar en Hostinger
 
 on:
@@ -37,7 +38,7 @@ jobs:
         env:
           # El formulario registra a los interesados en Dolibarr a través de este endpoint PHP
           VITE_LEAD_ENDPOINT: /api/lead.php
-          NOINDEX: ${{ vars.HOSTINGER_NOINDEX != 'false' }}
+          NOINDEX: ${{ vars.HOSTINGER_NOINDEX == 'true' }}
 
       - name: Artefacto para subir a mano
         uses: actions/upload-artifact@v4

@@ -137,8 +137,14 @@ Guardar los datos del formulario en Dolibarr es **tratamiento de datos personale
 
 ---
 
-## 5. Pasar la web nueva a producción (cuando la prueba esté aprobada)
+## 5. Pasar la web nueva a producción (`https://posgrado-fip.org.pe`)
 
-1. Nuevo respaldo del sitio actual (paso 0).
-2. En GitHub → **Settings → Secrets and variables → Actions → Variables**: `HOSTINGER_NOINDEX` = `false` (para que Google indexe la web) y ejecuta **Publicar en Hostinger**.
-3. Sube el artefacto `sitio-hostinger` a **`public_html/`** (sin tocar `public_html/crm/` ni la carpeta `nuevo/`). El `.htaccess` incluido hace funcionar `/programa/...` y `/privacidad`.
+1. **Respaldo** del sitio actual (paso 0): archivos de `public_html` y bases de datos, descargados fuera de Hostinger.
+2. **Retira el sitio anterior** de `public_html/`: borra sus archivos y carpetas (por ejemplo `index.php`, `wp-*`, `.htaccess` antiguo).
+   **No borres** `crm/`, `nuevo/`, `.well-known/` ni la carpeta `privado/` (que está fuera de `public_html`).
+   Es necesario porque, si queda un `index.php`, Hostinger lo muestra antes que el `index.html` de la web nueva.
+3. Descarga el artefacto **`sitio-hostinger`** de la última ejecución de **Actions → Publicar en Hostinger** (se compila para producción e indexable), súbelo a `public_html/` y **Extrae**.
+4. **Copia de prueba:** en `public_html/nuevo/` reemplaza todo por un `.htaccess` con
+   `Redirect 301 / https://posgrado-fip.org.pe/` para que no quede contenido duplicado (o elimina el subdominio).
+5. Comprueba: `https://posgrado-fip.org.pe`, `/programa/maestria-petroleo-gas-natural` (al recargar), `/privacidad`,
+   que `https://www.posgrado-fip.org.pe` redirija al dominio sin `www`, y un envío del formulario (WhatsApp y, si ya está Dolibarr, la oportunidad en el CRM).
