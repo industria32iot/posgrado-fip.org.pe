@@ -84,7 +84,7 @@ hPanel → **Bases de datos → Administración** → crear una base MySQL nueva
 
 | Campo | Tipo | Valores |
 | --- | --- | --- |
-| Programa de interés | lista | Doctorado · Maestría · Diplomado en Refinación y Petroquímica · Diplomado en Riesgos y Seguridad (claves = `id` de `programas.js`) |
+| Programa de interés | lista | Doctorado · Maestría · Diplomado en Refinación y Petroquímica · Diplomado en Riesgos y Seguridad (claves `doctorado`, `maestria`, `dip_refinacion`, `dip_riesgos`; `lead.php` las traduce desde los `id` de `programas.js`) |
 | Estado académico | lista | Interesado · Postulante · Admitido · Matriculado · Egresado · Graduado · Retirado |
 | Cohorte / semestre | texto | ej. `2027-I` |
 | Grado académico previo | lista | Bachiller · Título profesional · Maestro · Doctor |

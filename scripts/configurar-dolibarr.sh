@@ -9,6 +9,7 @@
 #      Código de alumno UNI y Estado académico.
 #   3. Crea el usuario técnico "api-web" (sin administrador) para el formulario web.
 #
+# Las claves de las listas no admiten guiones (la API de Dolibarr las rechaza).
 # Requisitos: módulo API REST activo y una clave API de un usuario ADMINISTRADOR.
 # La clave NO va en este archivo: o la inyecta el proxy (sesiones de Claude con
 # credencial guardada para el host) o se pasa en la variable DOLIBARR_API_KEY.
@@ -47,7 +48,7 @@ extra() { # nombre json
   r=$(llamada POST "setup/extrafields/societe/$1" "$2")
   case "$r" in 200*) echo "   $1: creado";; 409*) echo "   $1: ya existía";; *) echo "   $1: ERROR $r";; esac
 }
-extra programa '{"label":"Programa de interés","type":"select","pos":"10","size":"","list":"1","alwayseditable":"1","param":{"options":{"doctorado-petroleo-gas-natural":"Doctorado en Ciencias e Ingeniería de Petróleo y Gas Natural","maestria-petroleo-gas-natural":"Maestría en Ciencias con mención en Ingeniería de Petróleo y Gas Natural","diplomado-refinacion-petroquimica":"Diplomado en Procesos de Refinación y Petroquímica","diplomado-riesgos-seguridad":"Diplomado en Riesgo de Seguridad y Respuesta a Emergencias"}}}'
+extra programa '{"label":"Programa de interés","type":"select","pos":"10","size":"","list":"1","alwayseditable":"1","param":{"options":{"doctorado":"Doctorado en Ciencias e Ingeniería de Petróleo y Gas Natural","maestria":"Maestría en Ciencias con mención en Ingeniería de Petróleo y Gas Natural","dip_refinacion":"Diplomado en Procesos de Refinación y Petroquímica","dip_riesgos":"Diplomado en Riesgo de Seguridad y Respuesta a Emergencias"}}}'
 extra estado_academico '{"label":"Estado académico","type":"select","pos":"20","size":"","list":"1","alwayseditable":"1","default":"interesado","param":{"options":{"interesado":"Interesado","postulante":"Postulante","admitido":"Admitido","matriculado":"Matriculado","egresado":"Egresado","graduado":"Graduado","retirado":"Retirado"}}}'
 extra cohorte '{"label":"Cohorte / semestre (ej. 2027-I)","type":"varchar","size":"20","pos":"30","list":"1","alwayseditable":"1"}'
 extra grado_previo '{"label":"Grado académico previo","type":"select","pos":"40","size":"","list":"1","alwayseditable":"1","param":{"options":{"bachiller":"Bachiller","titulo":"Título profesional","maestro":"Maestro","doctor":"Doctor"}}}'
