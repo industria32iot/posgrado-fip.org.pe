@@ -74,7 +74,30 @@ hPanel → **Bases de datos → Administración** → crear una base MySQL nueva
 4. Crea el usuario **administrador** con contraseña robusta (no uses `admin`).
 5. Al terminar, deja que el instalador cree el archivo **`install.lock`** (bloquea el instalador). Si no lo crea, créalo vacío dentro de `dolibarr-documentos/`.
 
-### 2.4 Módulos a activar
+### 2.4 Configuración automática por API (recomendado)
+
+`scripts/configurar-dolibarr.sh` hace por la API los pasos 2.4 y 2.6 (salvo permisos y clave) y crea el
+**perfil de estudiante de posgrado**. Requisitos: módulo **API REST** activo y la clave API de un administrador
+(`DOLIBARR_API_KEY=... ./scripts/configurar-dolibarr.sh`, o desde una sesión de Claude con la credencial guardada).
+
+**Perfil de estudiante de posgrado** (atributos complementarios del tercero):
+
+| Campo | Tipo | Valores |
+| --- | --- | --- |
+| Programa de interés | lista | Doctorado · Maestría · Diplomado en Refinación y Petroquímica · Diplomado en Riesgos y Seguridad (claves `doctorado`, `maestria`, `dip_refinacion`, `dip_riesgos`; `lead.php` las traduce desde los `id` de `programas.js`) |
+| Estado académico | lista | Interesado · Postulante · Admitido · Matriculado · Egresado · Graduado · Retirado |
+| Cohorte / semestre | texto | ej. `2027-I` |
+| Grado académico previo | lista | Bachiller · Título profesional · Maestro · Doctor |
+| Universidad de procedencia | texto | |
+| Código de alumno UNI | texto | |
+
+El formulario web llena **Programa** y deja **Estado académico = Interesado**; el resto lo completa la Unidad de Posgrado.
+
+**Etapas del embudo:** basta con las de serie de Dolibarr (Proyectos → oportunidades):
+Prospección (= Interesado, ID 1) → Calificación (= Contactado) → Propuesta (= Charla/entrevista) → Negociación (= Postulante) → Ganada (= Matriculado) / Perdida.
+Renombrarlas en **Diccionarios → Estado de oportunidad** es opcional.
+
+### 2.4.1 Módulos a activar (manual, si no se usa el script)
 
 Inicio → **Configuración → Módulos/Aplicaciones**:
 

@@ -153,6 +153,15 @@ if ($nombres === '' || $apellidos === '' || !filter_var($correo, FILTER_VALIDATE
     responder(422, ['ok' => false, 'error' => 'Datos incompletos']);
 }
 
+/* "id" de src/data/programas.js → clave del campo "Programa de interés" en Dolibarr
+   (scripts/configurar-dolibarr.sh; las claves de lista no admiten guiones) */
+const PROGRAMAS_CRM = [
+    'doctorado-petroleo-gas-natural'    => 'doctorado',
+    'maestria-petroleo-gas-natural'     => 'maestria',
+    'diplomado-refinacion-petroquimica' => 'dip_refinacion',
+    'diplomado-riesgos-seguridad'       => 'dip_riesgos',
+];
+
 /* ---------- Cliente de la API de Dolibarr ---------- */
 function dolibarr(array $cfg, string $metodo, string $ruta, ?array $datos = null): array
 {
@@ -188,13 +197,22 @@ if (preg_match('/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+$/', $correo)) {
 }
 
 if ($socid === 0) {
-    [$code, $id] = dolibarr($cfg, 'POST', 'thirdparties', [
+    $tercero = [
         'name'      => $nombreCompleto,
         'client'    => 2,           // 2 = cliente potencial (prospecto)
         'email'     => $correo,
         'phone'     => $celular,
         'note_private' => "Origen: formulario web\n$origenTxt",
-    ]);
+    ];
+    /* Perfil de estudiante de posgrado (atributos complementarios del tercero,
+       ver docs/CRM-DOLIBARR.md): programa de interés y estado académico inicial. */
+    $perfil = ['options_estado_academico' => 'interesado'];
+    if (isset(PROGRAMAS_CRM[$programaId])) $perfil['options_programa'] = PROGRAMAS_CRM[$programaId];
+    [$code, $id] = dolibarr($cfg, 'POST', 'thirdparties', $tercero + ['array_options' => $perfil]);
+    if ($code >= 300 || !is_numeric($id)) {
+        /* Si los campos del perfil aún no existen en Dolibarr, registrar igual sin ellos */
+        [$code, $id] = dolibarr($cfg, 'POST', 'thirdparties', $tercero);
+    }
     if ($code >= 300 || !is_numeric($id)) responder(502, ['ok' => false, 'error' => 'No se pudo registrar (tercero)']);
     $socid = (int) $id;
 
