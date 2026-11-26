@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useScrollFrame } from '../../../hooks/useScroll.js'
 import { useScrollSpy } from '../../../hooks/useScrollSpy.js'
-import { ORDEN_TIPOS, TIPOS, porTipo, programUrl } from '../../../utils/content.js'
+import { C, ORDEN_TIPOS, TIPOS, porTipo, programUrl } from '../../../utils/content.js'
 import { cx } from '../../../utils/cx.js'
 import Brand from '../../ui/Brand/Brand.jsx'
 import Icon from '../../ui/Icon/Icon.jsx'
@@ -17,6 +17,7 @@ const LINKS = [
   ['contacto', 'Contacto'],
 ]
 const SPY_IDS = LINKS.map((l) => l[0])
+const PORTAL = C.portalAlumno?.url ? C.portalAlumno : null
 
 /**
  * Cabecera fija con mega menú de programas y menú móvil.
@@ -128,6 +129,13 @@ export default function Header({ solicitarHref = '#solicitar' }) {
                 </Link>
               </li>
             ))}
+            {PORTAL && (
+              <li>
+                <a className={s.navPortal} href={PORTAL.url} target="_blank" rel="noopener noreferrer" onClick={closeNav}>
+                  <Icon name="lock" /> {PORTAL.texto}
+                </a>
+              </li>
+            )}
           </ul>
           <SmartLink className={cx('btn btn--primary', s.navCtaM)} href={solicitarHref} onClick={closeNav}>
             Solicita información
