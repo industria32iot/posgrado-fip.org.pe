@@ -38,7 +38,7 @@ class modPosgradoFip extends DolibarrModules
 		$this->descriptionlong = $this->description;
 		$this->editor_name = 'Unidad de Posgrado FIP-UNI';
 		$this->editor_url = 'https://posgrado-fip.org.pe';
-		$this->version = '1.0.1';
+		$this->version = '1.0.2';
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->picto = 'fa-graduation-cap';
 
@@ -158,6 +158,19 @@ class modPosgradoFip extends DolibarrModules
 	 */
 	public function init($options = '')
 	{
+		// Dolibarr inicializa el módulo ANTES de activar sus dependencias. Se activan aquí primero para que
+		// sus permisos y constantes existan al aplicar la configuración (p. ej. "Facturas: leer" del portal).
+		require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
+		foreach ($this->depends as $dep) {
+			$depname = strtolower(preg_replace('/^mod/', '', $dep));
+			if ($depname == 'facture') {
+				$depname = 'invoice';
+			}
+			if (!isModEnabled($depname)) {
+				activateModule($dep, 1);
+			}
+		}
+
 		$result = $this->_load_tables('/posgradofip/sql/');
 		if ($result < 0) {
 			return -1;

@@ -62,6 +62,10 @@ $checks = array(
 	array(isModEnabled('webportal'), 'Portal Web', 'Acceso de alumnos a notas y pagos: '.dol_buildpath('/public/webportal/', 2)),
 	array(getDolGlobalInt('WEBPORTAL_USER_LOGGED') > 0, 'Usuario de servicio del Portal Web', 'Sin él, el portal rechaza a todos los alumnos ("configuración incompleta").'),
 );
+$faltan = $cfg->portalUserMissingRights();
+if ($faltan !== null) {
+	$checks[] = array(empty($faltan), 'Permisos del usuario de servicio', empty($faltan) ? 'Lectura de terceros y facturas: el alumno ve sus comprobantes en el portal.' : 'Faltan: '.implode(', ', $faltan).'. Pulsa "Completar lo pendiente" para asignarlos.');
+}
 print '<table class="noborder centpercent">';
 print '<tr class="liste_titre"><th>Requisito</th><th>Para qué</th><th class="center">Estado</th></tr>';
 foreach ($checks as $c) {
