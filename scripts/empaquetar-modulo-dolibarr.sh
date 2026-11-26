@@ -12,6 +12,8 @@ VERSION=$(sed -n "s/.*\$this->version = '\([^']*\)'.*/\1/p" "$RAIZ/dolibarr/posg
 [ -n "$VERSION" ] || { echo "No se pudo leer la versión del módulo"; exit 1; }
 
 mkdir -p "$SALIDA"
+# Ruta absoluta: zip se ejecuta dentro de dolibarr/, así que una ruta relativa apuntaría a otro sitio
+SALIDA="$(cd "$SALIDA" && pwd)"
 ZIP="$SALIDA/module_posgradofip-$VERSION.zip"
 rm -f "$ZIP"
 (cd "$RAIZ/dolibarr" && zip -qr -X "$ZIP" posgradofip -x '*.DS_Store' -x '*/.git*')

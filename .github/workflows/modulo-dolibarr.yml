@@ -17,6 +17,8 @@ on:
   pull_request:
     paths:
       - 'dolibarr/**'
+      - 'scripts/empaquetar-modulo-dolibarr.sh'
+      - '.github/workflows/modulo-dolibarr.yml'
   workflow_dispatch:
 
 permissions:
