@@ -42,6 +42,13 @@ export default function Footer() {
             <li>
               <Link to="/#faq">Preguntas frecuentes</Link>
             </li>
+            {C.portalAlumno?.url && (
+              <li>
+                <a href={C.portalAlumno.url} {...ext}>
+                  {C.portalAlumno.texto}
+                </a>
+              </li>
+            )}
             <li>
               <a href="https://www.fip.uni.edu.pe/" {...ext}>
                 Facultad FIP

@@ -410,6 +410,9 @@ export const CONTENIDO = {
     mapsEnlace: "https://www.google.com/maps/search/?api=1&query=Facultad+de+Ingenieria+de+Petroleo+UNI+Av.+Tupac+Amaru+210+Rimac",
     comoLlegar: ""   // CONFIRMAR: indicaciones de acceso (puerta de ingreso, pabellón). "" = no se muestra
   },
+  /* portalAlumno: acceso de los alumnos a sus notas y pagos (Portal Web de Dolibarr, módulo Posgrado FIP).
+     Aparece en el menú principal y en "Enlaces" del pie. url: "" = no se muestra */
+  portalAlumno: { texto: "Portal del alumno", url: "https://portal.posgrado-fip.org.pe/public/webportal/" },
   /* redesTitulo: título sobre los íconos. "" = sin título */
   redesTitulo: "",   // con 2–3 íconos no hace falta título
   mostrarSPE: true,   // true = muestra "Comunidad estudiantil: SPE UNI Student Chapter" en el pie

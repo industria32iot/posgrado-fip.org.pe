@@ -110,6 +110,22 @@
 .nav > ul > li > a.is-active::after {
   transform: scaleX(1);
 }
+/* Portal del alumno (enlace externo al Portal Web de Dolibarr) */
+.nav > ul > li > a.nav__portal {
+  color: var(--verde);
+  font-weight: 600;
+}
+.nav__portal svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+@media (min-width: 1181px) {
+  /* Último enlace antes del botón "Solicita información": sin margen derecho extra para no desbordar la cabecera */
+  .nav > ul > li > a.nav__portal {
+    padding-right: 2px;
+  }
+}
 .nav__sub-btn svg {
   transition: transform 0.2s;
 }
@@ -230,6 +246,15 @@
   }
 }
 @media (max-width: 1180px) {
+  /* backdrop-filter convierte la cabecera en el contenedor de los hijos "fixed": el menú
+     móvil quedaba recortado al alto de la cabecera. Sin él, el menú ocupa toda la pantalla. */
+  .header {
+    backdrop-filter: none;
+  }
+  .nav > ul > li > a.nav__portal {
+    justify-content: flex-start;
+    gap: 10px;
+  }
   .burger {
     display: block;
   }
