@@ -229,9 +229,49 @@ Al matricular, el módulo actualiza el **perfil de estudiante** del tercero (pas
 5. **Cobrar**: botón **Nueva factura / cuota** en la matrícula; registra los pagos en la factura como siempre.
 6. **Notas**: el docente guarda en borrador; coordinación revisa y pulsa **Guardar y publicar**. Si un docente corrige una nota publicada, vuelve a borrador hasta que coordinación la publique otra vez. Al **cerrar el periodo** (Posgrado → Periodos) los docentes ya no pueden modificar notas.
 
-### 6.4 Pendiente de completar a mano
+### 6.4 Correo de salida (pendiente)
 
-- **RUC** de la UNI y **director(a)** de la Unidad (Empresa/Organización): no figuran en la web.
-- **Correo saliente (SMTP)** con `posgrado-fip@uni.edu.pe` (Configuración → Correos): sin él no funcionan "¿Olvidó su contraseña?" ni el envío de comprobantes.
+Sin correo de salida no funcionan "¿Olvidó su contraseña?" (personal y alumnos) ni el envío de comprobantes por correo. Mientras tanto, las contraseñas se restablecen a mano: el personal en la ficha del usuario, los alumnos en el Tercero → "Cuentas de sitios web". El formulario web no se ve afectado.
+
+1. **Proveedor de `uni.edu.pe`**: si `posgrado-fip@uni.edu.pe` se abre en Gmail es Google Workspace; si se abre en Outlook, Microsoft 365.
+2. **Contraseña de aplicación** (Dolibarr no debe usar la contraseña normal):
+   - Google: Cuenta de Google → Seguridad → verificación en 2 pasos → "Contraseñas de aplicación" → crear "Dolibarr" (16 caracteres). Si no aparece, la bloqueó el administrador de correo de la UNI.
+   - Microsoft 365: el administrador de la UNI debe habilitar "SMTP autenticado" para esa cuenta.
+3. **Dolibarr → Inicio → Configuración → Correos → Modificar**:
+
+| Campo | Google Workspace | Microsoft 365 |
+| --- | --- | --- |
+| Método de envío | SMTP/SMTPS socket library | SMTP/SMTPS socket library |
+| Servidor SMTP | `smtp.gmail.com` | `smtp.office365.com` |
+| Puerto | `465` | `587` |
+| Cifrado | SSL/TLS (SMTPS) | STARTTLS |
+| Usuario SMTP | `posgrado-fip@uni.edu.pe` | `posgrado-fip@uni.edu.pe` |
+| Contraseña SMTP | la contraseña de aplicación | la de la cuenta |
+| Remitente (hoy `robot@domain.com`) | `Unidad de Posgrado FIP-UNI <posgrado-fip@uni.edu.pe>` | igual |
+
+4. Probar con "Enviar un correo de prueba". No usar el correo de Hostinger para enviar como `@uni.edu.pe`: los mensajes caen en spam o se rechazan.
+
+### 6.5 Estado del portal (revisión del 26 de noviembre de 2026)
+
+Revisado desde fuera y por el API REST (solo lectura) en `portal.posgrado-fip.org.pe`, Dolibarr 24.0.4, módulo Posgrado FIP **1.0.2**.
+
+| Área | Estado |
+| --- | --- |
+| Módulos | Posgrado FIP, Terceros, Facturas, Portal Web, Proyectos, Agenda, E-Mailing, Categorías, Exportar/Importar y API activos |
+| Institución | Unidad de Posgrado FIP-UNI · Av. Túpac Amaru N.º 210, Pabellón D1 · 15333 Rímac, Lima · Perú · RUC 20169004359 (Id. prof. 1 y número de IVA) · Directora: Dra. Luz de Fátima Eyzaguirre Gorvenia · PEN · año fiscal desde enero · es_PE |
+| Apariencia | Título "Portal Posgrado FIP-UNI", escudo UNI (logo, favicon, app instalable), colores y tipografías de posgrado-fip.org.pe |
+| Portal Web de alumnos | `https://portal.posgrado-fip.org.pe/public/webportal/` → "Mis notas y pagos". Captcha activo, lista de comprobantes visible, presupuestos y pedidos ocultos. Usuario de servicio `portal-alumnos` con solo "Terceros: leer" y "Facturas: leer" |
+| Seguridad | Explorador del API cerrado. Instalador bloqueado (`install.lock`) |
+| Formulario web → CRM | Probado de punta a punta: crea el tercero (perfil Interesado), el contacto y la oportunidad validada `WEB-…` en la etapa 1, con origen y consentimiento en la descripción. `api-web` con los permisos de §2.6 |
+| Web | Enlace "Portal del alumno" en el menú (escritorio y móvil) y en el pie |
+
+### 6.6 Pendiente
+
+- **Correo de salida**: ver §6.4.
+- **Reglamento académico**: confirmar en Posgrado → Programas y cursos la nota aprobatoria (viene en 14), el promedio mínimo (14) y la asistencia mínima (80 %), y cargar los **créditos de cada curso** (sin créditos, el promedio pesa igual cada curso).
+- **Diplomado en Riesgos**: faltan 2 de sus 8 módulos (la web solo lista 6).
+- **Registro de prueba del formulario**: marcar como perdida o borrar la primera oportunidad `WEB-261126-…` para que no cuente en el embudo.
+- **Valor del embudo**: definir `valor_por_programa` en `privado/crm-config.php` (§2.7); hoy las oportunidades llegan con monto 0.
 - **Pago en línea con Niubiz**: Dolibarr no lo trae; por ahora los pagos de BCP, Scotiabank o Niubiz se registran a mano en cada factura.
-- **IGV**: confirmar con contabilidad el tratamiento de los servicios educativos antes de emitir comprobantes.
+- **IGV**: Dolibarr está configurado como no sujeto a IVA/IGV (`FACTURE_TVAOPTION = 0`); confirmarlo con contabilidad antes de emitir comprobantes.
+- **Publicar la web**: sin FTP configurado, cada cambio en `main` requiere subir a mano el artefacto `sitio-hostinger` (no borrar `portal/`, `.well-known/` ni `privado/`). Para automatizarlo, ver "Opcional: que se publique sola por FTP" en §1.
