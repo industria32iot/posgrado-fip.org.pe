@@ -1,0 +1,7 @@
+Tipografías de posgrado-fip.org.pe incluidas en el módulo para no depender de Google Fonts:
+
+- Inter (Rasmus Andersson) · SIL Open Font License 1.1 · https://github.com/rsms/inter
+- Source Serif 4 (Adobe) · SIL Open Font License 1.1 · https://github.com/adobe-fonts/source-serif
+
+Archivos tomados de los paquetes @fontsource/inter y @fontsource/source-serif-4 (subconjunto latin).
+Licencias completas: LICENSE-Inter.txt y LICENSE-SourceSerif4.txt.

@@ -1,0 +1,81 @@
+/* Posgrado FIP-UNI · identidad de posgrado-fip.org.pe aplicada a Dolibarr (tema Eldy)
+ * Paleta y tipografías de src/styles/global.css del sitio web.
+ * Los colores base (menú, títulos, enlaces) se fijan con las constantes THEME_ELDY_*;
+ * aquí se ajustan tipografía, botones, pestañas y el inicio de sesión. */
+
+/* Tipografías incluidas en el módulo (fonts/, licencia OFL): sin dependencia de Google Fonts */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/inter-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 700; font-display: swap; src: url("../fonts/inter-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Source Serif 4"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/source-serif-4-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Source Serif 4"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/source-serif-4-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Source Serif 4"; font-style: normal; font-weight: 700; font-display: swap; src: url("../fonts/source-serif-4-latin-700-normal.woff2") format("woff2"); }
+
+:root {
+	--pf-verde: #004d44;
+	--pf-verde-medio: #0b5d50;
+	--pf-verde-700: #003c36;
+	--pf-verde-900: #00231f;
+	--pf-verde-50: #e6f0ee;
+	--pf-oro: #c9982b;
+	--pf-oro-texto: #8a6410;
+	--pf-tinta: #17181c;
+	--pf-texto: #3a3d45;
+	--pf-linea: #e6e1da;
+	--pf-crema: #f7f4ef;
+	--pf-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+	--pf-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Tipografía */
+body, button, input, select, textarea, .select2-container, div.login_block, .tmenu, .vmenu, table.liste, table.noborder, table.border {
+	font-family: var(--pf-sans);
+}
+.titre, div.titre, .fiche > .titre, .titre.inline-block, .login_table_title, h1, h2, h3,
+.inline-block.valignmiddle .titre, div.ficheaddleft .titre {
+	font-family: var(--pf-serif);
+	letter-spacing: -0.01em;
+}
+div.titre, .titre { color: var(--pf-verde); font-weight: 600; }
+
+/* Menú superior */
+#id-top, .side-nav-vert { background: var(--pf-verde-700); }
+div.tmenucenter .mainmenuaspan { font-weight: 500; }
+li.tmenusel, li.tmenu:hover { box-shadow: inset 0 -3px 0 var(--pf-oro); }
+
+/* Botones */
+.butAction, .butAction:link, .butAction:visited, .button:not(.button-cancel):not(.buttonDelete), input.button:not(.button-cancel), .butActionLogin {
+	background: var(--pf-verde) !important;
+	border-color: var(--pf-verde) !important;
+	color: #fff !important;
+	border-radius: 999px !important;
+	font-weight: 600;
+	box-shadow: none;
+}
+.butAction:hover, .button:not(.button-cancel):hover, input.button:not(.button-cancel):hover, .butActionLogin:hover {
+	background: var(--pf-verde-700) !important;
+	border-color: var(--pf-verde-700) !important;
+}
+.button-cancel, input.button-cancel { border-radius: 999px !important; }
+.butActionDelete { border-radius: 999px !important; }
+
+/* Pestañas y fichas */
+.tabactive, a.tab#active { border-top: 3px solid var(--pf-oro) !important; color: var(--pf-verde-700) !important; }
+div.tabBar { border-top-color: var(--pf-linea); }
+tr.liste_titre th, tr.liste_titre td, .liste_titre_bydiv { color: var(--pf-verde-900); }
+
+/* Badges de estado con la paleta */
+.badge-status4 { background-color: var(--pf-verde) !important; }
+.badge-status6 { background-color: var(--pf-verde-50) !important; color: var(--pf-verde-700) !important; }
+
+/* Inicio de sesión */
+body.bodylogin { font-family: var(--pf-sans); }
+.login_table_title, a.login_table_title { font-family: var(--pf-serif) !important; font-size: 1.35em; color: #fff !important; opacity: 1 !important; font-weight: 600; }
+.login_table { border-radius: 16px !important; border-top: 4px solid var(--pf-oro) !important; box-shadow: 0 2px 4px rgba(23, 24, 28, 0.06), 0 24px 48px rgba(23, 24, 28, 0.14) !important; }
+#img_logo { max-height: 110px; width: auto; }
+a.alogin, .alogin { color: var(--pf-verde) !important; }
+
+/* Módulo Posgrado */
+.mod-posgradofip input[type=number].right { text-align: right; }
+.mod-posgradofip .liste_total td { font-weight: 600; }

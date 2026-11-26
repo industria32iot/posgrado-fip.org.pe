@@ -30,3 +30,6 @@ pnpm-debug.log*
 Thumbs.db
 *.suo
 *.sw?
+
+# Módulo Dolibarr empaquetado (scripts/empaquetar-modulo-dolibarr.sh)
+dist-dolibarr

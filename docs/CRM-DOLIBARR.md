@@ -176,3 +176,53 @@ Guardar los datos del formulario en Dolibarr es **tratamiento de datos personale
    `Redirect 301 / https://posgrado-fip.org.pe/` para que no quede contenido duplicado (o elimina el subdominio).
 5. Comprueba: `https://posgrado-fip.org.pe`, `/programa/maestria-petroleo-gas-natural` (al recargar), `/privacidad`,
    que `https://www.posgrado-fip.org.pe` redirija al dominio sin `www`, y un envío del formulario (WhatsApp y, si ya está Dolibarr, la oportunidad en el CRM).
+
+---
+
+## 6. Gestión académica y Portal del alumno (módulo **Posgrado FIP**)
+
+El módulo propio `dolibarr/posgradofip` convierte el CRM en el sistema académico de la Unidad:
+
+| Quién | Qué hace | Dónde |
+| --- | --- | --- |
+| **Coordinación** | Programas, plan de estudios, periodos, asignación de docentes, matrículas, publicación de notas | Menú **Posgrado** |
+| **Docente** | Registra asistencia y notas **solo en sus cursos asignados**; quedan en borrador | Posgrado → Registro de notas |
+| **Alumno** (doctorado, maestría y diplomados) | Ve sus notas publicadas, promedio ponderado, créditos y su estado de cuenta; descarga comprobantes | `https://portal.posgrado-fip.org.pe/public/webportal/` → **Mis notas y pagos** |
+
+Viene cargado con los 4 programas y sus 47 cursos (de `src/data/programas.js`) y los periodos 2027-I y 2027-II.
+Los pagos son **facturas** normales de Dolibarr del alumno (matrícula, cuotas, derechos): el portal muestra lo emitido, lo pagado y el saldo.
+Al matricular, el módulo actualiza el **perfil de estudiante** del tercero (paso 2.4): estado académico, cohorte y código UNI.
+
+### 6.1 Instalar
+
+1. GitHub → **Actions → Módulo Dolibarr** → última ejecución → **Artifacts** → descarga `modulo-dolibarr-posgradofip` y extráelo: queda `module_posgradofip-1.0.0.zip`.
+   (También se genera en local con `./scripts/empaquetar-modulo-dolibarr.sh`.)
+2. Dolibarr → **Inicio → Configuración → Módulos → "Desplegar/instalar un módulo externo"** → sube `module_posgradofip-1.0.0.zip`.
+   Si Dolibarr dice que la carpeta `custom` no es escribible, sube el contenido con el **Administrador de archivos** de hPanel a `public_html/portal/custom/posgradofip/`.
+3. En la lista de módulos activa **Posgrado FIP**. Se activan solos **Terceros**, **Facturas** y **Portal Web**.
+4. Al activarse, el módulo **completa la configuración recomendada** sin pisar lo que ya se haya configurado a mano. Para revisarla o forzarla: rueda dentada del módulo → **"Aplicar toda la configuración recomendada"**.
+
+### 6.2 Qué configura automáticamente
+
+| Grupo | Ajustes |
+| --- | --- |
+| Institución | Nombre, dirección (Av. Túpac Amaru N.º 210, Pabellón D1, Rímac), Perú / Lima, teléfono, WhatsApp, correo, web, Facebook y X de la UNI, moneda **PEN**, año fiscal desde enero, idioma es_PE |
+| Apariencia | Título "Portal Posgrado FIP-UNI" (en lugar de "Dolibarr 24.0.4"), escudo UNI como logo y favicon, colores de posgrado-fip.org.pe (verde petróleo `#003c36`/`#004d44`, crema `#f7f4ef`, dorado `#c9982b`), tipografías **Inter** y **Source Serif 4** (incluidas en el módulo, sin Google Fonts) y fondo del inicio de sesión |
+| Portal Web | Título, color, escudo, lista de comprobantes visible, presupuestos y pedidos ocultos, **captcha** en el acceso y el **usuario de servicio** `portal-alumnos` (sin él el portal rechaza a todos: "configuración incompleta"). Ese usuario solo puede leer terceros y facturas, y el portal lo limita siempre al alumno conectado. |
+| Seguridad | Cierra el explorador público del API (`/api/index.php/explorer`) |
+
+### 6.3 Puesta en marcha
+
+1. **Revisar el reglamento** en Posgrado → Programas y cursos: la nota mínima aprobatoria (viene en **14**), el promedio mínimo (14), la asistencia mínima (80 %) y los **créditos de cada curso** (la web no los publica; sin créditos, el promedio pesa igual cada curso). Al Diplomado en Riesgos le faltan 2 de sus 8 módulos (la web lista 6 ejes).
+2. **Usuarios y grupos**: crea el grupo *Docentes* (permiso "Registrar notas en los cursos asignados" y "Ver programas…") y el grupo *Coordinación* (todos los permisos de Posgrado FIP, Terceros y Facturas).
+3. **Asignación docente** por periodo (Posgrado → Asignación docente).
+4. **Matricular**: Posgrado → Nueva matrícula (los interesados del formulario web ya están como terceros). En la ficha de la matrícula, **Crear cuenta** → tipo "Portal Dolibarr", con el correo del alumno como usuario.
+5. **Cobrar**: botón **Nueva factura / cuota** en la matrícula; registra los pagos en la factura como siempre.
+6. **Notas**: el docente guarda en borrador; coordinación revisa y pulsa **Guardar y publicar**. Si un docente corrige una nota publicada, vuelve a borrador hasta que coordinación la publique otra vez. Al **cerrar el periodo** (Posgrado → Periodos) los docentes ya no pueden modificar notas.
+
+### 6.4 Pendiente de completar a mano
+
+- **RUC** de la UNI y **director(a)** de la Unidad (Empresa/Organización): no figuran en la web.
+- **Correo saliente (SMTP)** con `posgrado-fip@uni.edu.pe` (Configuración → Correos): sin él no funcionan "¿Olvidó su contraseña?" ni el envío de comprobantes.
+- **Pago en línea con Niubiz**: Dolibarr no lo trae; por ahora los pagos de BCP, Scotiabank o Niubiz se registran a mano en cada factura.
+- **IGV**: confirmar con contabilidad el tratamiento de los servicios educativos antes de emitir comprobantes.

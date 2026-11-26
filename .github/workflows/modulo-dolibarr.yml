@@ -1,0 +1,45 @@
+# Empaqueta el módulo Dolibarr "Posgrado FIP" (dolibarr/posgradofip) en cada cambio.
+#
+# Instalación en el portal (sin secrets):
+#   1. Abre la ejecución en Actions y descarga el artefacto "modulo-dolibarr-posgradofip" (.zip).
+#   2. GitHub entrega el artefacto dentro de otro .zip: extráelo para obtener module_posgradofip-<versión>.zip.
+#   3. Dolibarr → Inicio → Configuración → Módulos → "Desplegar/instalar un módulo externo" → sube ese archivo.
+#   4. Activa el módulo "Posgrado FIP". Ver docs/CRM-DOLIBARR.md, sección 6.
+name: Módulo Dolibarr
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dolibarr/**'
+      - 'scripts/empaquetar-modulo-dolibarr.sh'
+      - '.github/workflows/modulo-dolibarr.yml'
+  pull_request:
+    paths:
+      - 'dolibarr/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  empaquetar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Revisar sintaxis PHP
+        run: |
+          php -v | head -1
+          fail=0
+          while IFS= read -r -d '' f; do php -l "$f" > /dev/null || fail=1; done < <(find dolibarr -name '*.php' -print0)
+          exit $fail
+
+      - name: Empaquetar
+        run: ./scripts/empaquetar-modulo-dolibarr.sh dist-dolibarr
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: modulo-dolibarr-posgradofip
+          path: dist-dolibarr/*.zip
+          retention-days: 30

@@ -126,6 +126,10 @@ Valida los campos y abre WhatsApp con un mensaje prellenado. En el despliegue de
 
 Instalación, configuración del CRM y uso del embudo: **[docs/CRM-DOLIBARR.md](docs/CRM-DOLIBARR.md)**.
 
+### Portal académico (Dolibarr)
+
+`dolibarr/posgradofip/` es un módulo propio de Dolibarr para la gestión académica: programas, cursos, matrículas, registro de notas por docentes y la página **"Mis notas y pagos"** del Portal Web, donde los alumnos ven sus notas publicadas y su estado de cuenta. Al activarlo aplica la configuración recomendada y el estilo de esta web. Se empaqueta con `./scripts/empaquetar-modulo-dolibarr.sh` o desde **Actions → Módulo Dolibarr**. Guía: **[docs/CRM-DOLIBARR.md §6](docs/CRM-DOLIBARR.md#6-gestión-académica-y-portal-del-alumno-módulo-posgrado-fip)**.
+
 ---
 
 ## Publicar
