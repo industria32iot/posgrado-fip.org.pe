@@ -3,7 +3,10 @@
 # usando su API REST. Se puede ejecutar varias veces: lo que ya existe se deja igual.
 #
 #   1. Activa los módulos: Terceros, Proyectos (con oportunidades), Agenda,
-#      E-Mailing y Categorías.
+#      E-Mailing, Categorías, Facturas, Portal Web y, si ya está desplegado,
+#      "Posgrado FIP" (gestión académica). Al activarse, Posgrado FIP aplica la
+#      configuración recomendada (datos de la Unidad, logo UNI, colores de
+#      posgrado-fip.org.pe, Portal Web de alumnos, cierre del explorador del API).
 #   2. Crea el "perfil de estudiante de posgrado" como atributos complementarios
 #      del tercero: Programa, Cohorte, Grado previo, Universidad de procedencia,
 #      Código de alumno UNI y Estado académico.
@@ -39,9 +42,15 @@ r=$(llamada GET users/info); echo "   $r"
 case "$r" in 200*) ;; *) echo "ERROR: la API no responde con un usuario válido (¿módulo API activo? ¿clave de administrador?)"; exit 1;; esac
 
 echo "== 1. Módulos"
-for m in modSociete modProjet modAgenda modMailing modCategorie; do
+for m in modSociete modProjet modAgenda modMailing modCategorie modFacture modWebPortal; do
   r=$(llamada PUT "setup/modules/$m/enable"); echo "   $m: ${r:0:120}"
 done
+# Módulo propio: primero hay que desplegar el .zip (Actions → "Módulo Dolibarr", ver docs/CRM-DOLIBARR.md §6)
+r=$(llamada PUT "setup/modules/modPosgradoFip/enable")
+case "$r" in
+  200*) echo "   modPosgradoFip: activado (configuración recomendada aplicada)";;
+  *) echo "   modPosgradoFip: no disponible todavía; despliega el .zip del módulo y vuelve a ejecutar este script (${r:0:80})";;
+esac
 
 echo "== 2. Perfil de estudiante de posgrado (atributos complementarios del tercero)"
 extra() { # nombre json
