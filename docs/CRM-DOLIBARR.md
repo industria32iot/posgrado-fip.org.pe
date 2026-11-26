@@ -195,13 +195,20 @@ Al matricular, el módulo actualiza el **perfil de estudiante** del tercero (pas
 
 ### 6.1 Instalar
 
-1. GitHub → **Actions → Módulo Dolibarr** → última ejecución → **Artifacts** → descarga `module_posgradofip-1.0.0`.
-   Se descarga como `module_posgradofip-1.0.0.zip`: **súbelo tal cual**, sin descomprimirlo ni cambiarle el nombre
+1. GitHub → **Actions → Módulo Dolibarr** → última ejecución → **Artifacts** → descarga `module_posgradofip-<versión>` (por ejemplo `module_posgradofip-1.0.1`).
+   Se descarga como `module_posgradofip-<versión>.zip`: **súbelo tal cual**, sin descomprimirlo ni cambiarle el nombre
    (Dolibarr exige el formato `module_<nombre>-<versión>.zip`). También se genera en local con `./scripts/empaquetar-modulo-dolibarr.sh`.
-2. Dolibarr → **Inicio → Configuración → Módulos → "Desplegar/instalar un módulo externo"** → sube `module_posgradofip-1.0.0.zip`.
+2. Dolibarr → **Inicio → Configuración → Módulos → "Desplegar/instalar un módulo externo"** → sube `module_posgradofip-<versión>.zip`.
    Si Dolibarr dice que la carpeta `custom` no es escribible, sube el contenido con el **Administrador de archivos** de hPanel a `public_html/portal/custom/posgradofip/`.
 3. En la lista de módulos activa **Posgrado FIP**. Se activan solos **Terceros**, **Facturas** y **Portal Web**.
 4. Al activarse, el módulo **completa la configuración recomendada** sin pisar lo que ya se haya configurado a mano. Para revisarla o forzarla: rueda dentada del módulo → **"Aplicar toda la configuración recomendada"**.
+
+**Actualizar a una versión nueva:** sube el `.zip` nuevo igual que en el paso 2 (reemplaza la carpeta del módulo; los datos se conservan). Después **desactiva y vuelve a activar** el módulo para registrar los cambios. La configuración que ya existe no se pisa. El login del portal de alumnos puede mostrar el estilo anterior hasta 3 horas por la caché del navegador y de la CDN de Hostinger; para verlo al instante, vacía la caché de la CDN desde hPanel (sección CDN del sitio).
+
+| Versión | Cambios |
+| --- | --- |
+| 1.0.1 | Login del portal de alumnos: el campo del código de seguridad (captcha) ya no corta el texto, y los campos usan todo el ancho en celular. |
+| 1.0.0 | Primera versión. |
 
 ### 6.2 Qué configura automáticamente
 

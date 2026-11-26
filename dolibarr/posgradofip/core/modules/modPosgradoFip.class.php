@@ -38,7 +38,7 @@ class modPosgradoFip extends DolibarrModules
 		$this->descriptionlong = $this->description;
 		$this->editor_name = 'Unidad de Posgrado FIP-UNI';
 		$this->editor_url = 'https://posgrado-fip.org.pe';
-		$this->version = '1.0.0';
+		$this->version = '1.0.1';
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->picto = 'fa-graduation-cap';
 
@@ -176,6 +176,12 @@ class modPosgradoFip extends DolibarrModules
 			dol_include_once('/posgradofip/class/posgradofipconfig.class.php');
 			$cfg = new PosgradoFipConfig($this->db);
 			$cfg->apply($user, false);
+		}
+		if ($result > 0) {
+			// Nueva revisión del CSS del Portal Web: los navegadores descargan el estilo actualizado tras una actualización del módulo
+			global $conf;
+			require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
+			dolibarr_set_const($this->db, 'WEBPORTAL_PARAMS_REV', (string) (getDolGlobalInt('WEBPORTAL_PARAMS_REV') + 1), 'chaine', 0, '', (int) $conf->entity);
 		}
 
 		return $result;

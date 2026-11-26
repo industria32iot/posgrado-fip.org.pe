@@ -107,6 +107,15 @@ button, [type=submit], [role=button] { border-radius: 999px; font-weight: 600; }
 .login__submit { background: var(--pf-verde) !important; color: #fff !important; border: 0 !important; border-radius: 999px !important; justify-content: center; margin-top: 2.2rem; }
 .login__submit:hover { background: var(--pf-verde-700) !important; }
 .login__submit .button__icon { color: #fff; }
+/* Captcha: Dolibarr fija el campo al 32 % y el texto se corta; ocupa el ancho de los otros campos menos la imagen y el botón */
+.login__field:has(input[name=security_code]) { display: flex; align-items: center; gap: 8px; width: 75%; }
+.login__field input[name=security_code] { width: auto !important; flex: 1 1 auto; min-width: 0; }
+.login__field #img_securitycode { flex: 0 0 auto; }
+.login__field a[data-role=button] { flex: 0 0 auto; }
+@media (max-width: 600px) {
+	:is(input,select).login__input { --input-width: 100%; }
+	.login__field:has(input[name=security_code]) { width: 100%; }
+}
 footer { border-top: 1px solid #e6e1da; }
 ';
 		return 0;
