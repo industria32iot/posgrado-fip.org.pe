@@ -207,6 +207,7 @@ Al matricular, el módulo actualiza el **perfil de estudiante** del tercero (pas
 
 | Versión | Cambios |
 | --- | --- |
+| 1.0.2 | El usuario de servicio del Portal Web (`portal-alumnos`) recibe siempre el permiso **Facturas: leer**. Antes no se asignaba si Facturas se activaba junto con el módulo, y el alumno no podía ver sus comprobantes. Al actualizar, desactiva y reactiva el módulo (o pulsa "Completar lo pendiente") para repararlo. La página de configuración avisa si falta algún permiso. |
 | 1.0.1 | Login del portal de alumnos: el campo del código de seguridad (captcha) ya no corta el texto, y los campos usan todo el ancho en celular. |
 | 1.0.0 | Primera versión. |
 

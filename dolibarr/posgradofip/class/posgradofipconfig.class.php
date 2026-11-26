@@ -263,13 +263,46 @@ class PosgradoFipConfig
 		return $changed ? 1 : 0;
 	}
 
+	/** Permisos mínimos del usuario de servicio del Portal Web: [módulo, permiso, descripción] */
+	const PORTAL_USER_RIGHTS = array(
+		array('societe', 'lire', 'Terceros: leer'),
+		array('facture', 'lire', 'Facturas: leer'),
+	);
+
 	/**
-	 * Crea (si no existe) el usuario interno con el que el Portal Web consulta los datos de cada alumno.
-	 * Solo tiene permiso de lectura de terceros y facturas; el portal lo limita siempre al alumno conectado.
+	 * Permisos mínimos que le faltan al usuario de servicio del Portal Web
+	 *
+	 * @return string[]|null  Descripciones de los permisos que faltan; null si no hay usuario configurado
+	 */
+	public function portalUserMissingRights()
+	{
+		require_once DOL_DOCUMENT_ROOT.'/user/class/user.class.php';
+		$id = getDolGlobalInt('WEBPORTAL_USER_LOGGED');
+		$u = new User($this->db);
+		if ($id <= 0 || $u->fetch($id) <= 0) {
+			return null;
+		}
+		$u->loadRights('', 1);
+		$missing = array();
+		foreach (self::PORTAL_USER_RIGHTS as $r) {
+			if (!$u->hasRight($r[0], $r[1])) {
+				$missing[] = $r[2];
+			}
+		}
+		return $missing;
+	}
+
+	/**
+	 * Crea (si no existe) el usuario interno con el que el Portal Web consulta los datos de cada alumno,
+	 * y se asegura de que tenga sus permisos mínimos (lectura de terceros y facturas). El portal lo limita
+	 * siempre al alumno conectado.
+	 *
+	 * Los permisos se revisan siempre, también si el usuario ya existía: Dolibarr inicializa el módulo antes
+	 * de activar sus dependencias, y si Facturas aún no estaba activo su permiso no se pudo asignar.
 	 *
 	 * @param User $user      Usuario que ejecuta
 	 * @param bool $overwrite Reasignar aunque ya haya otro usuario configurado
-	 * @return int 1 configurado, 0 sin cambios, -1 error
+	 * @return int 1 cambios aplicados, 0 sin cambios, -1 error
 	 */
 	public function ensurePortalUser($user, $overwrite = false)
 	{
@@ -277,35 +310,51 @@ class PosgradoFipConfig
 		require_once DOL_DOCUMENT_ROOT.'/user/class/user.class.php';
 		require_once DOL_DOCUMENT_ROOT.'/core/lib/security2.lib.php';
 
+		$changed = 0;
 		$current = getDolGlobalInt('WEBPORTAL_USER_LOGGED');
-		if ($current > 0 && !$overwrite) {
-			return 0;
-		}
-
 		$u = new User($this->db);
-		if ($u->fetch(0, self::PORTAL_USER_LOGIN) <= 0) {
-			$u = new User($this->db);
-			$u->login = self::PORTAL_USER_LOGIN;
-			$u->lastname = 'Portal de alumnos';
-			$u->firstname = '';
-			$u->admin = 0;
-			$u->employee = 0;
-			$u->statut = 1;
-			$u->status = 1;
-			$u->entity = (int) $conf->entity;
-			$u->note_private = 'Usuario de servicio del Portal Web (módulo Posgrado FIP). No inicia sesión: el portal lo usa para mostrar a cada alumno solo sus propios datos.';
-			if ($u->create($user) <= 0) {
-				return -1;
-			}
-			// Contraseña aleatoria que nadie conoce: el usuario no se usa para entrar al back-office
-			$u->setPassword($user, getRandomPassword(true, null, 32), 0, 0, 1);
-		}
-		$u->addrights(0, 'societe', 'lire');
-		$u->addrights(0, 'facture', 'lire');
 
-		if ($current == $u->id) {
-			return 0;
+		if ($current > 0 && !$overwrite && $u->fetch($current) > 0) {
+			// Ya hay un usuario de servicio configurado (el nuestro u otro elegido a mano): solo se completan permisos
+		} else {
+			$u = new User($this->db);
+			if ($u->fetch(0, self::PORTAL_USER_LOGIN) <= 0) {
+				$u = new User($this->db);
+				$u->login = self::PORTAL_USER_LOGIN;
+				$u->lastname = 'Portal de alumnos';
+				$u->firstname = '';
+				$u->admin = 0;
+				$u->employee = 0;
+				$u->statut = 1;
+				$u->status = 1;
+				$u->entity = (int) $conf->entity;
+				$u->note_private = 'Usuario de servicio del Portal Web (módulo Posgrado FIP). No inicia sesión: el portal lo usa para mostrar a cada alumno solo sus propios datos.';
+				if ($u->create($user) <= 0) {
+					return -1;
+				}
+				// Contraseña aleatoria que nadie conoce: el usuario no se usa para entrar al back-office
+				$u->setPassword($user, getRandomPassword(true, null, 32), 0, 0, 1);
+				$changed++;
+			}
+			if ($current != $u->id) {
+				if (dolibarr_set_const($this->db, 'WEBPORTAL_USER_LOGGED', (string) $u->id, 'chaine', 0, '', (int) $conf->entity) <= 0) {
+					return -1;
+				}
+				$changed++;
+			}
 		}
-		return dolibarr_set_const($this->db, 'WEBPORTAL_USER_LOGGED', (string) $u->id, 'chaine', 0, '', (int) $conf->entity) > 0 ? 1 : -1;
+
+		$missing = $this->portalUserMissingRights();
+		if (!empty($missing)) {
+			foreach (self::PORTAL_USER_RIGHTS as $r) {
+				$u->addrights(0, $r[0], $r[1]);
+			}
+			$after = $this->portalUserMissingRights();
+			if (!empty($after)) {
+				return -1;  // el permiso no existe todavía (módulo inactivo)
+			}
+			$changed++;
+		}
+		return $changed ? 1 : 0;
 	}
 }
