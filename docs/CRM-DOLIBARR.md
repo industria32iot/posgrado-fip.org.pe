@@ -195,8 +195,9 @@ Al matricular, el módulo actualiza el **perfil de estudiante** del tercero (pas
 
 ### 6.1 Instalar
 
-1. GitHub → **Actions → Módulo Dolibarr** → última ejecución → **Artifacts** → descarga `modulo-dolibarr-posgradofip` y extráelo: queda `module_posgradofip-1.0.0.zip`.
-   (También se genera en local con `./scripts/empaquetar-modulo-dolibarr.sh`.)
+1. GitHub → **Actions → Módulo Dolibarr** → última ejecución → **Artifacts** → descarga `module_posgradofip-1.0.0`.
+   Se descarga como `module_posgradofip-1.0.0.zip`: **súbelo tal cual**, sin descomprimirlo ni cambiarle el nombre
+   (Dolibarr exige el formato `module_<nombre>-<versión>.zip`). También se genera en local con `./scripts/empaquetar-modulo-dolibarr.sh`.
 2. Dolibarr → **Inicio → Configuración → Módulos → "Desplegar/instalar un módulo externo"** → sube `module_posgradofip-1.0.0.zip`.
    Si Dolibarr dice que la carpeta `custom` no es escribible, sube el contenido con el **Administrador de archivos** de hPanel a `public_html/portal/custom/posgradofip/`.
 3. En la lista de módulos activa **Posgrado FIP**. Se activan solos **Terceros**, **Facturas** y **Portal Web**.

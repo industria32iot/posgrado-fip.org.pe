@@ -1,10 +1,11 @@
 # Empaqueta el módulo Dolibarr "Posgrado FIP" (dolibarr/posgradofip) en cada cambio.
 #
 # Instalación en el portal (sin secrets):
-#   1. Abre la ejecución en Actions y descarga el artefacto "modulo-dolibarr-posgradofip" (.zip).
-#   2. GitHub entrega el artefacto dentro de otro .zip: extráelo para obtener module_posgradofip-<versión>.zip.
-#   3. Dolibarr → Inicio → Configuración → Módulos → "Desplegar/instalar un módulo externo" → sube ese archivo.
-#   4. Activa el módulo "Posgrado FIP". Ver docs/CRM-DOLIBARR.md, sección 6.
+#   1. Abre la ejecución en Actions y descarga el artefacto "module_posgradofip-<versión>".
+#      GitHub lo entrega como module_posgradofip-<versión>.zip con la carpeta posgradofip/ en la raíz:
+#      es exactamente el paquete que espera Dolibarr. NO lo descomprimas ni le cambies el nombre.
+#   2. Dolibarr → Inicio → Configuración → Módulos → "Desplegar/instalar un módulo externo" → sube ese archivo.
+#   3. Activa el módulo "Posgrado FIP". Ver docs/CRM-DOLIBARR.md, sección 6.
 name: Módulo Dolibarr
 
 on:
@@ -38,10 +39,20 @@ jobs:
           exit $fail
 
       - name: Empaquetar
-        run: ./scripts/empaquetar-modulo-dolibarr.sh dist-dolibarr
+        id: paquete
+        run: |
+          ./scripts/empaquetar-modulo-dolibarr.sh dist-dolibarr
+          zip=$(ls dist-dolibarr/module_posgradofip-*.zip)
+          echo "nombre=$(basename "$zip" .zip)" >> "$GITHUB_OUTPUT"
+          # GitHub siempre comprime el artefacto en <nombre-del-artefacto>.zip. Se sube el contenido
+          # del paquete (carpeta posgradofip/) con el nombre del paquete, para que el .zip descargado
+          # sea directamente module_posgradofip-<versión>.zip, válido para Dolibarr.
+          mkdir -p artefacto
+          unzip -q "$zip" -d artefacto
+          test -f artefacto/posgradofip/core/modules/modPosgradoFip.class.php
 
       - uses: actions/upload-artifact@v4
         with:
-          name: modulo-dolibarr-posgradofip
-          path: dist-dolibarr/*.zip
+          name: ${{ steps.paquete.outputs.nombre }}
+          path: artefacto/
           retention-days: 30
